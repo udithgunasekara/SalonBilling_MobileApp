@@ -1,16 +1,7 @@
-# SalonBilling_MobileApp# salon_mobile
+# SalonBilling_MobileApp
 
-A new Flutter project.
+## License
+This project is licensed under the **Personal Use Only License**. The repository is for personal use only, and you are not permitted to use, distribute, or modify the code in any way without explicit permission from the owner.
 
-## Getting Started
+For more details, see the [LICENSE](LICENSE) file.
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
