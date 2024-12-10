@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../assets/theme/themecolor.dart';
 import 'package:salon_mobile/View/serivce_title.dart';
@@ -6,9 +7,11 @@ import 'package:salon_mobile/ViewModel/home_view_model.dart';
 import 'package:intl/intl.dart';
 
 class HomeView extends StatelessWidget {
-  final HomeViewModel _viewModel;
+  // final HomeViewModel _viewModel;
 
-  const HomeView(this._viewModel, {super.key});
+  // const HomeView(this._viewModel, {super.key});
+
+  const HomeView({super.key});
 
   String getCurrentMonth() {
     final now = DateTime.now();
@@ -33,6 +36,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentDay = DateTime.now().day.toString(); // Get the current day
+    final homeViewModel = Provider.of<HomeViewModel>(context);
 
     return Scaffold(
       body: Column(
@@ -125,9 +129,9 @@ class HomeView extends StatelessWidget {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: _viewModel.services.length,
+              itemCount: homeViewModel.services.length,
               itemBuilder: (context, index) {
-                return ServiceTile(_viewModel.services[index]);
+                return ServiceTile(homeViewModel.services[index]);
               },
             ),
           ),
@@ -135,7 +139,7 @@ class HomeView extends StatelessWidget {
           //create a button
           ElevatedButton(
             onPressed: () {
-              _viewModel.navigateToNewBill(context);
+              homeViewModel.navigateToNewBill(context);
             },
             child: const Text('New Bill'),
           ),
