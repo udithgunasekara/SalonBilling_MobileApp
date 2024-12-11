@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:provider/provider.dart';
 import 'package:salon_mobile/View/home_view.dart';
 import 'package:salon_mobile/ViewModel/home_view_model.dart';
-import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,15 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider(create: (_) => ServiceViewModel()),
-        // other providers
-      ],
-      child: MyApp(),
-    ),
-  ); //Create Home Page and add here
+  runApp(const MyApp()); //Create Home Page and add here
 }
 
 class MyApp extends StatelessWidget {
@@ -50,10 +40,7 @@ class MyApp extends StatelessWidget {
           labelSmall: TextStyle(fontFamily: 'ProductSans'),
         ),
       ),
-      home: ChangeNotifierProvider(
-        create: (context) => HomeViewModel(),
-        child: const HomeView(),
-      ),
+      home: HomeView(HomeViewModel()),
     );
   }
 }

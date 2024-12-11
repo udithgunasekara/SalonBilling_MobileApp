@@ -1,6 +1,5 @@
 //statefull
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 
 class ServiceInfor extends StatefulWidget {
@@ -12,58 +11,61 @@ class ServiceInfor extends StatefulWidget {
 
 class _ServiceInforState extends State<ServiceInfor> {
   final SearchController _searchController = SearchController();
-  //final TextEditingController _searchController = TextEditingController();
+
+  final ServiceViewModel _viewModel = ServiceViewModel();
+
+  List<Map<String, dynamic>> _filteredServices = [];
 
   String? controllerString;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    final serviceViewModel =
-        Provider.of<ServiceViewModel>(context, listen: false);
-    serviceViewModel
-        .fetchAndSaveServices(); // Fetch services when View is initialized
+    _fetchServices();
+  }
+
+  Future<void> _fetchServices() async {
+    await _viewModel.fetchAndSaveServices();
+    setState(() {
+      _filteredServices = _viewModel.services;
+    });
+  }
+
+  //Filtering
+  void _onSearchChnaged(String query) {
+    setState(() {
+      _filteredServices = _viewModel.searchServices(query);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ServiceViewModel>(
-      builder: (context, serviceViewModel, child) {
-        return Column(
-          children: [
-            // Search bar to filter services
-            SearchAnchor.bar(
-              searchController: _searchController,
-              suggestionsBuilder:
-                  (BuildContext context, SearchController controller) {
-                final query = controller.text.toLowerCase();
-                final suggestions = serviceViewModel.services
-                    .where((service) =>
-                        service['name'].toLowerCase().contains(query))
-                    .toList();
-
-                return List<ListTile>.generate(suggestions.length, (int index) {
-                  final service = suggestions[index];
-                  return ListTile(
-                    title: Text(service['name']),
-                    onTap: () {
-                      controller.closeView(service['name']);
-                      controllerString = service['name'];
-                      print("Selected Service: $controllerString");
-                    },
-                  );
-                });
-              },
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  print("Selected Service: $controllerString");
+    return Column(
+      children: [
+        ///sorting algo for emp frquently used services
+        SearchAnchor.bar(
+          searchController: _searchController,
+          suggestionsBuilder:
+              (BuildContext context, SearchController controller) {
+            final suggestion = _viewModel.searchServices(controller.text);
+            return suggestion.map((service) {
+              return ListTile(
+                title: Text(service['name']),
+                onTap: () {
+                  controller.closeView(service['name']);
+                  controllerString = controller.text;
                 },
-                child: Text("Print Selected Service"))
-          ],
-        );
-      },
+              );
+            }).toList();
+          },
+        ),
+        ElevatedButton(
+            onPressed: () {
+              print("Here Text: $controllerString");
+            },
+            child: Text("Print what i clicked"))
+      ],
+      //Have some functions to implement
     );
   }
 }

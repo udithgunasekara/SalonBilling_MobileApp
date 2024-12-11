@@ -26,10 +26,17 @@ class ServiceRepository {
     try {
       final snapshot = await _firestore.collection('Services').get();
 
-      return snapshot.docs
+      final services = snapshot.docs
           // ignore: unnecessary_cast
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
+
+      // Print services to console
+      services.forEach((service) {
+        print('Service: $service');
+      });
+
+      return services;
     } on SocketException {
       print('Internet is not working:');
       throw Exception('Internet is not working:');
@@ -39,3 +46,27 @@ class ServiceRepository {
     }
   }
 }
+
+
+
+// class ServiceRepository {
+//   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+//   Future<List<Map<String, dynamic>>> fetchServices() async {
+//     try {
+//       final snapshot = await _firestore.collection('Services').get();
+
+//       return snapshot.docs
+//           // ignore: unnecessary_cast
+//           .map((doc) => doc.data() as Map<String, dynamic>)
+//           .toList();
+//     } on SocketException {
+//       print('Internet is not working:');
+//       throw Exception('Internet is not working:');
+//     } catch (e) {
+//       print('Error fetching Services list: $e');
+//       throw Exception('Error fetching Services list: $e');
+//     }
+//   }
+// }
+

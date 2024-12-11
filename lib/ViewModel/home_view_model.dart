@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/View/billingpage/billing_page.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class HomeViewModel {
   final List<Service> _services = [
     Service(
       providerName: 'Nimal',
