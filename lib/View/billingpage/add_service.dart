@@ -1,5 +1,6 @@
 //statefull
 import 'package:flutter/material.dart';
+import 'package:salon_mobile/View/services_catalogs/threading.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 
 class ServiceInfor extends StatefulWidget {
@@ -15,6 +16,7 @@ class _ServiceInforState extends State<ServiceInfor> {
   final ServiceViewModel _viewModel = ServiceViewModel();
 
   List<Map<String, dynamic>> _filteredServices = [];
+  Widget? _selectedCalalogWidget;
 
   String? controllerString;
 
@@ -22,6 +24,8 @@ class _ServiceInforState extends State<ServiceInfor> {
   void initState() {
     super.initState();
     _fetchServices();
+
+    //Lets set threading card first
   }
 
   Future<void> _fetchServices() async {
@@ -35,6 +39,13 @@ class _ServiceInforState extends State<ServiceInfor> {
   void _onSearchChnaged(String query) {
     setState(() {
       _filteredServices = _viewModel.searchServices(query);
+    });
+  }
+
+//set service catalog
+  void showCatalog(String text) {
+    setState(() {
+      _selectedCalalogWidget = _viewModel.showSelectedService(text);
     });
   }
 
@@ -53,7 +64,8 @@ class _ServiceInforState extends State<ServiceInfor> {
                 title: Text(service['name']),
                 onTap: () {
                   controller.closeView(service['name']);
-                  controllerString = controller.text;
+                  //call function
+                  showCatalog(controller.text);
                 },
               );
             }).toList();
@@ -63,9 +75,18 @@ class _ServiceInforState extends State<ServiceInfor> {
             onPressed: () {
               print("Here Text: $controllerString");
             },
-            child: Text("Print what i clicked"))
+            child: Text("Print what i clicked")),
+        //showing catalog
+        //Have some functions to implement
+        //show Wvalue widget in there
+        if (_selectedCalalogWidget != null)
+          _selectedCalalogWidget!
+        else
+          const Text(
+            "Please select a service to see the catalog.",
+            style: TextStyle(fontSize: 16),
+          )
       ],
-      //Have some functions to implement
     );
   }
 }

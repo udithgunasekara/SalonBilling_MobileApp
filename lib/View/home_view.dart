@@ -12,6 +12,8 @@ class HomeView extends StatelessWidget {
 
   // const HomeView({super.key});
 
+  //TODO: separte date time functions in acc MVVM
+
   String getCurrentMonth() {
     final now = DateTime.now();
     final formatter = DateFormat('MMM yy');

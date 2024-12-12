@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:salon_mobile/Model/service.dart';
+import 'package:salon_mobile/View/services_catalogs/dressing.dart';
+import 'package:salon_mobile/View/services_catalogs/threading.dart';
 
 class ServiceViewModel {
   final ServiceRepository _serviceRepository = ServiceRepository();
@@ -29,5 +31,18 @@ class ServiceViewModel {
             service['name'].toLowerCase().contains(query.toLowerCase()) ||
             service['id'].toString().contains(query))
         .toList();
+  }
+
+  Widget showSelectedService(String text) {
+    switch (text) {
+      case 'Threading':
+        return Threading();
+
+      case 'Haircut':
+        return Dressing();
+
+      default:
+        return Container(); // return empty container for ref null
+    }
   }
 }
