@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:salon_mobile/View/billingpage/add_client.dart';
 import 'package:salon_mobile/View/billingpage/add_service.dart';
+import 'package:salon_mobile/View/billingpage/charge_price.dart';
 import 'package:salon_mobile/assets/theme/themecolor.dart';
 
 class BillingPage extends StatelessWidget {
@@ -28,7 +29,7 @@ class BillingPage extends StatelessWidget {
               ClientInfor(),
 
               //add service list widget here
-              ServiceInfor()
+              ServiceInfor(),
             ],
           ),
         ));
