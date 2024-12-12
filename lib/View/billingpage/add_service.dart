@@ -1,5 +1,6 @@
 //statefull
 import 'package:flutter/material.dart';
+import 'package:salon_mobile/View/services_catalogs/dressing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 
@@ -16,7 +17,7 @@ class _ServiceInforState extends State<ServiceInfor> {
   final ServiceViewModel _viewModel = ServiceViewModel();
 
   List<Map<String, dynamic>> _filteredServices = [];
-  Widget? _selectedCalalogWidget;
+  Widget? _selectedCalalogWidget = const Dressing();
 
   String? controllerString;
 
