@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Dressing extends StatelessWidget {
-  const Dressing({super.key});
+class Haricut extends StatelessWidget {
+  const Haricut({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Text(
-      "Here the dressing catalog",
+      "HairCut",
       style: TextStyle(fontSize: 16),
     );
   }

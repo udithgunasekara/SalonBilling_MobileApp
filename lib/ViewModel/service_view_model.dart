@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:salon_mobile/Model/service.dart';
+import 'package:salon_mobile/View/services_catalogs/Haricut.dart';
 import 'package:salon_mobile/View/services_catalogs/dressing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
 
@@ -44,6 +45,10 @@ class ServiceViewModel {
 
       case 'Haircut':
         passFinalValue(text);
+        return Haricut();
+
+      case 'Dressing':
+        passFinalValue(text);
         return Dressing();
 
       default:
@@ -55,17 +60,13 @@ class ServiceViewModel {
   void passFinalValue(String text) {
 //use servicehashr
 
-    print("Hash: $services");
-    print("HashValues: ${servicesHash.values}");
     for (var servicee in services) {
-      print("serviceName: $servicee");
       if (servicee['name'] == text) {
         defualPrice = servicee['prices'];
-        print("Returing defult: $defualPrice");
+      } else if (servicee['name'] == text) {
+        defualPrice = "____";
       }
-      print("State 1");
     }
     // return 0 if no matching service is found
-    print("State 2");
   }
 }
