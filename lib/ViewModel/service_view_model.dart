@@ -19,8 +19,8 @@ class ServiceViewModel {
   Future<void> fetchAndSaveServices() async {
     try {
       _service = await _serviceRepository.fetchServices();
-      _servicesHash = {for (var service in _service) service['id']: service};
-      print('All services saved in servicesHash: $_servicesHash');
+      // _servicesHash = {for (var service in _service) service['id']: service};
+      // print('All services saved in servicesHash: $_servicesHash');
     } catch (e) {
       print('Service fetching Error: $e');
     }
@@ -37,6 +37,7 @@ class ServiceViewModel {
   Widget showSelectedService(String text) {
     switch (text) {
       case 'Threading':
+        print("Test selection pass: $text");
         passFinalValue(
             text); //Here i can improve the code add it upper switch case
         return Threading();
@@ -52,12 +53,19 @@ class ServiceViewModel {
 
 //pass def value
   void passFinalValue(String text) {
-//use servicehash
-    for (var service in _servicesHash.values) {
-      if (service['name'] == text) {
-        defualPrice = service['prices'];
+//use servicehashr
+
+    print("Hash: $services");
+    print("HashValues: ${servicesHash.values}");
+    for (var servicee in services) {
+      print("serviceName: $servicee");
+      if (servicee['name'] == text) {
+        defualPrice = servicee['prices'];
+        print("Returing defult: $defualPrice");
       }
+      print("State 1");
     }
     // return 0 if no matching service is found
+    print("State 2");
   }
 }

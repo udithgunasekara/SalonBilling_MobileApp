@@ -37,6 +37,7 @@ class _ServiceInforState extends State<ServiceInfor> {
   void callPrice() {
     setState(() {
       currentPrice = _viewModel.defualPrice; // Update the state
+      print("Retured Price : $currentPrice");
     });
   }
 
