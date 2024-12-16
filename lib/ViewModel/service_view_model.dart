@@ -12,7 +12,7 @@ class ServiceViewModel {
   List<Map<String, dynamic>> _service = [];
   Map<String, dynamic> _servicesHash = {};
 
-  String? defualPrice;
+  String? defualPrice = "____";
 
   List<Map<String, dynamic>> get services => _service;
   Map<String, dynamic> get servicesHash => _servicesHash;
@@ -60,11 +60,18 @@ class ServiceViewModel {
   void passFinalValue(String text) {
 //use servicehashr
 
-    for (var servicee in services) {
-      if (servicee['name'] == text) {
-        defualPrice = servicee['prices'];
-      } else if (servicee['name'] == text) {
-        defualPrice = "____";
+    print("What Text: $text");
+    print("Check Service: $services");
+    for (var service in services) {
+      if (service['name'] == text) {
+        var price = service['prices'];
+        //check if price is map
+        if (price is Map) {
+          print("YES with is MAP: $text");
+          defualPrice = '____';
+        } else {
+          defualPrice = service['prices'];
+        }
       }
     }
     // return 0 if no matching service is found

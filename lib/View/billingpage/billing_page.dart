@@ -22,16 +22,15 @@ class BillingPage extends StatelessWidget {
           ),
           backgroundColor: mainColor,
         ),
-        body: Container(
-          child: const Column(
-            children: [
-              //add client information widget here
-              ClientInfor(),
-
-              //add service list widget here
-              ServiceInfor(),
-            ],
-          ),
+        body: const Column(
+          //mainAxisAlignment: MainAxisAlignment.,
+          children: [
+            //add client information widget here
+            ClientInfor(),
+            SizedBox(height: 20),
+            //add service list widget here
+            ServiceInfor()
+          ],
         ));
   }
 }

@@ -21,10 +21,10 @@ class _ServiceInforState extends State<ServiceInfor> {
   final ServiceViewModel _viewModel = ServiceViewModel();
 
   List<Map<String, dynamic>> _filteredServices = [];
-  Widget? _selectedCalalogWidget = const Dressing();
+  Widget? _selectedCalalogWidget;
 
   String? controllerString;
-  String? currentPrice;
+  String? currentPrice = "____";
 
   @override
   void initState() {
@@ -64,65 +64,69 @@ class _ServiceInforState extends State<ServiceInfor> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ///sorting algo for emp frquently used services
-        SearchAnchor.bar(
-          searchController: _searchController,
-          suggestionsBuilder:
-              (BuildContext context, SearchController controller) {
-            final suggestion = _viewModel.searchServices(controller.text);
-            return suggestion.map((service) {
-              return ListTile(
-                title: Text(service['name']),
-                onTap: () {
-                  controller.closeView(service['name']);
-                  controllerString = controller.text;
-                  //call function
-                  showCatalog(controller.text);
-                  callPrice();
-                },
-              );
-            }).toList();
-          },
-        ),
-        ElevatedButton(
-            onPressed: () {
-              print("Here Text: $controllerString");
+    return Padding(
+      padding: const EdgeInsets.only(left: 30, right: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ///sorting algo for emp frquently used services
+          SearchAnchor.bar(
+            searchController: _searchController,
+            suggestionsBuilder:
+                (BuildContext context, SearchController controller) {
+              final suggestion = _viewModel.searchServices(controller.text);
+              return suggestion.map((service) {
+                return ListTile(
+                  title: Text(service['name']),
+                  onTap: () {
+                    controller.closeView(service['name']);
+                    FocusScope.of(context).requestFocus(FocusNode());
+
+                    controllerString = controller.text;
+                    //call function
+                    showCatalog(controller.text);
+                    callPrice();
+                  },
+                );
+              }).toList();
             },
-            child: Text("Print what i clicked")),
-        //showing catalog
-        //Have some functions to implement
-        //show Wvalue widget in there
-        if (_selectedCalalogWidget != null)
-          _selectedCalalogWidget!
-        //when the user select price or widget return defualt price it should need to catch
-        // the billing charge price widget
-        else
-          const Text(
-            "Please select a service to see the catalog.",
-            style: TextStyle(fontSize: 16),
           ),
 
-        Container(
-          height: 80,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.blue,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Center(
-            child: Text(
-              'Charge Pricee: Rs $currentPrice',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+          SizedBox(height: 30),
+          //showing catalog
+          //Have some functions to implement
+          //show Wvalue widget in there
+          if (_selectedCalalogWidget != null)
+            _selectedCalalogWidget!
+          //when the user select price or widget return defualt price it should need to catch
+          // the billing charge price widget
+          else
+            const Text(
+              "Please select a service to see the catalog.",
+              style: TextStyle(fontSize: 16),
+            ),
+          // i need to push below container into the buttom of the cr
+          SizedBox(height: 70),
+          Container(
+            height: 80,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Center(
+              child: Text(
+                'Charge Pricee: Rs $currentPrice',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
