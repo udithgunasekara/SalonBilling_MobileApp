@@ -20,7 +20,7 @@ class ServiceViewModel {
   Future<void> fetchAndSaveServices() async {
     try {
       _service = await _serviceRepository.fetchServices();
-      // _servicesHash = {for (var service in _service) service['id']: service};
+      _servicesHash = {for (var service in _service) service['id']: service};
       // print('All services saved in servicesHash: $_servicesHash');
     } catch (e) {
       print('Service fetching Error: $e');
@@ -57,23 +57,33 @@ class ServiceViewModel {
   }
 
 //pass def value
-  void passFinalValue(String text) {
+  void passFinalValue(String text, {List<String>? serviceList}) {
 //use servicehashr
-
     print("What Text: $text");
-    print("Check Service: $services");
+    print("Check1 Service: $services");
+    print("Check1 HashService: $servicesHash");
+
+    //if (serviceList == null) {
+    //return defult price
     for (var service in services) {
       if (service['name'] == text) {
         var price = service['prices'];
-        //check if price is map
         if (price is Map) {
+          print("answered");
           print("YES with is MAP: $text");
+          print("serviceList in model: $serviceList");
+
+          // access the key and value in map
+          price.forEach((key, value) {
+            print('key is $key and its value is $value ');
+          });
+
           defualPrice = '____';
         } else {
           defualPrice = service['prices'];
         }
       }
     }
-    // return 0 if no matching service is found
+    // defualPrice = "select Option";
   }
 }

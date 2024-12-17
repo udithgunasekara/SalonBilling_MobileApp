@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:salon_mobile/ViewModel/service_view_model.dart';
 
-import 'package:flutter/material.dart';
-
-class Dressing extends StatelessWidget {
+class Dressing extends StatefulWidget {
   const Dressing({super.key});
+
+  @override
+  _DressingState createState() => _DressingState();
+}
+
+class _DressingState extends State<Dressing> {
+  final ServiceViewModel _viewModel = ServiceViewModel();
+  List<bool> _isSelected = [false, false, false];
+  List<String> servicers = [];
+
+  //pass selected services
+  void selectedServices(String text) {
+    if (!servicers.contains(text)) {
+      servicers.add(text);
+    } else {
+      servicers.remove(text);
+    }
+    print("Service List: $servicers");
+    print("calling...");
+    _viewModel.passFinalValue("Dressing", serviceList: servicers);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -11,8 +31,8 @@ class Dressing extends StatelessWidget {
       builder: (context, constraints) {
         return Container(
           width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: Colors.white,
             boxShadow: [
               BoxShadow(
@@ -30,9 +50,9 @@ class Dressing extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Bridal Dressing',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -47,11 +67,12 @@ class Dressing extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                _serviceButton('Hair Dressing', false),
+                _serviceButton(
+                    'Hair Dressing', 0), // Pass the index for state tracking
                 const SizedBox(height: 16),
-                _serviceButton('Dress Dressing', false),
+                _serviceButton('Dress Dressing', 1),
                 const SizedBox(height: 16),
-                _serviceButton('MakeUp', true),
+                _serviceButton('MakeUp', 2),
               ],
             ),
           ),
@@ -60,21 +81,35 @@ class Dressing extends StatelessWidget {
     );
   }
 
-  Widget _serviceButton(String title, bool isSelected) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.blue),
-        color: isSelected ? Colors.blue.shade50 : Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Center(
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.black,
+  Widget _serviceButton(String title, int index) {
+    return GestureDetector(
+      onTap: () {
+        setState(
+          () {
+            // Toggle the selected state of the clicked button
+            _isSelected[index] = !_isSelected[index];
+
+            print("Seletect Title: $title");
+          },
+        );
+        print("JJJ");
+        selectedServices(title);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue),
+          color: _isSelected[index] ? Colors.blue.shade50 : Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            ),
           ),
         ),
       ),
