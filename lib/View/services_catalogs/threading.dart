@@ -11,8 +11,8 @@ class Threading extends StatelessWidget {
         return Container(
           width: double.infinity,
           height: 200,
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: Colors.white, // Background color
             boxShadow: [
               BoxShadow(

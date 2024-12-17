@@ -39,6 +39,7 @@ class ClientInfor extends StatelessWidget {
           SizedBox(height: 8.0),
           TextField(
             controller: TextEditingController(text: '077 98 875 412'),
+            keyboardType: TextInputType.number,
             decoration: const InputDecoration(
               labelText: 'WhatsApp Number',
               labelStyle: TextStyle(fontSize: 22, color: mainTextColor),

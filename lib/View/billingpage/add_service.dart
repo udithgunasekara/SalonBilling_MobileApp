@@ -31,8 +31,15 @@ class _ServiceInforState extends State<ServiceInfor> {
     super.initState();
     _fetchServices();
 
+    //Clean search bar
+    // _searchController.addListener(() {
+    //   _searchController.clear();
+    // });
+
     //Lets set threading card first
   }
+
+  //Clean search bar
 
   void callPrice() {
     setState(() {
@@ -80,7 +87,7 @@ class _ServiceInforState extends State<ServiceInfor> {
                   title: Text(service['name']),
                   onTap: () {
                     controller.closeView(service['name']);
-                    FocusScope.of(context).requestFocus(FocusNode());
+                    FocusScope.of(context).unfocus();
 
                     controllerString = controller.text;
                     //call function
@@ -89,6 +96,11 @@ class _ServiceInforState extends State<ServiceInfor> {
                   },
                 );
               }).toList();
+            },
+            onTap: () {
+              if (_searchController.text == controllerString) {
+                _searchController.clear();
+              }
             },
           ),
 
