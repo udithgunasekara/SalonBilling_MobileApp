@@ -8,6 +8,18 @@ import 'package:salon_mobile/View/services_catalogs/dressing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
 
 class ServiceViewModel {
+//creating private constructor
+  ServiceViewModel._privateConstructore();
+
+  //static instance
+  static final ServiceViewModel _instance =
+      ServiceViewModel._privateConstructore();
+
+  //factory constructore return same instance
+  factory ServiceViewModel() {
+    return _instance;
+  }
+
   final ServiceRepository _serviceRepository = ServiceRepository();
 
   List<Map<String, dynamic>> _service = [];
@@ -32,6 +44,8 @@ class ServiceViewModel {
       // print('All services saved in servicesHash: $_servicesHash');
 
       //get the salonBox and print them into here.
+      salonBox = await Hive.openBox('salonBox');
+      salonBoxData = Map<String, dynamic>.from(salonBox.toMap());
     } catch (e) {
       print('Service fetching Error: $e');
     }
@@ -69,9 +83,6 @@ class ServiceViewModel {
 //pass def value
   void passFinalValue(String text, {List<String>? serviceList}) async {
 //use servicehashr
-
-    salonBox = await Hive.openBox('salonBox');
-    salonBoxData = Map<String, dynamic>.from(salonBox.toMap());
 
     print("What Text: $text");
     print("Check1 Service: $services");
