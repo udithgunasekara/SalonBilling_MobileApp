@@ -13,12 +13,6 @@ class _ChargePriceState extends State<ChargePrice> {
 
   String? x;
 
-  @override
-  void initState() {
-    super.initState();
-    x = _viewModel.defualPrice;
-  }
-
   // @override
   // void setState(VoidCallback fn) {
   //   // TODO: implement setState

@@ -41,6 +41,8 @@ dependencies:
   # for activation and get letest version : press ctrl + space
   cloud_firestore: ^5.5.1
   provider: ^6.1.2
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 
 

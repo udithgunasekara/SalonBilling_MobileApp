@@ -9,7 +9,7 @@ class Dressing extends StatefulWidget {
 }
 
 class _DressingState extends State<Dressing> {
-  final ServiceViewModel _viewModel = ServiceViewModel();
+  final _viewModel = ServiceViewModel();
   List<bool> _isSelected = [false, false, false];
   List<String> servicers = [];
 

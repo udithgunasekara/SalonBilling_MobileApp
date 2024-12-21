@@ -41,13 +41,6 @@ class _ServiceInforState extends State<ServiceInfor> {
 
   //Clean search bar
 
-  void callPrice() {
-    setState(() {
-      currentPrice = _viewModel.defualPrice; // Update the state
-      print("Retured Price : $currentPrice");
-    });
-  }
-
   Future<void> _fetchServices() async {
     await _viewModel.fetchAndSaveServices();
     setState(() {
@@ -71,6 +64,10 @@ class _ServiceInforState extends State<ServiceInfor> {
 
   @override
   Widget build(BuildContext context) {
+    // return
+    // ValueListenableBuilder(
+    //     valueListenable: _viewModel.defualPrice,
+    //     builder: (context, price, child) {
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Column(
@@ -92,7 +89,6 @@ class _ServiceInforState extends State<ServiceInfor> {
                     controllerString = controller.text;
                     //call function
                     showCatalog(controller.text);
-                    callPrice();
                   },
                 );
               }).toList();
@@ -119,26 +115,34 @@ class _ServiceInforState extends State<ServiceInfor> {
             ),
           // i need to push below container into the buttom of the cr
           SizedBox(height: 70),
-          Container(
-            height: 80,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Center(
-              child: Text(
-                'Charge Pricee: Rs $currentPrice',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
+
+          ValueListenableBuilder<String>(
+              valueListenable: _viewModel.defualPrice,
+              builder: (context, price, child) {
+                print("ValueListenableBuilder rebuilt with price: $price");
+                return Container(
+                  height: 80,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Charge Pricee: Rs $price',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }),
         ],
       ),
     );
   }
+  // );
+  //}
 }
