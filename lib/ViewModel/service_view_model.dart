@@ -31,7 +31,7 @@ class ServiceViewModel {
   String? defualPricee = "____";
 
   //ValueNotifier for change state
-  final ValueNotifier<String> defualPrice = ValueNotifier<String>("_-___");
+  final ValueNotifier<String> defualPrice = ValueNotifier<String>("_____");
 
   List<Map<String, dynamic>> get services => _service;
   Map<String, dynamic> get servicesHash => _servicesHash;
@@ -89,41 +89,39 @@ class ServiceViewModel {
     print("Check1 HashService: $servicesHash");
     print("what in Hive: $salonBoxData");
 
-    // print('SalonBox Data:');
-    // salonBoxData.forEach((key, value) {
-    //   print('Key: $key, Value: $value');
-    // });
+    try {
+      salonBoxData.forEach((key, service) {
+        if (service['name'] == text) {
+          var price = service['prices'];
+          if (price is Map) {
+            print("answered");
+            print("YES with is MAP: $text");
+            print("serviceList in model: $serviceList");
 
-    //if (serviceList == null) {
-    //return defult price
-    salonBoxData.forEach((key, service) {
-      if (service['name'] == text) {
-        var price = service['prices'];
-        if (price is Map) {
-          print("answered");
-          print("YES with is MAP: $text");
-          print("serviceList in model: $serviceList");
+            // access the key and value in map
 
-          // access the key and value in map
-
-          //for (var i = 0; i >= serviceList!.length; i++) {
-          var priceCount = 0;
-          price.forEach((key, value) {
-            print('key is $key and its value is $value ');
-            // Update priceCount based on serviceList if provided
-            if (serviceList == null || serviceList.contains(key)) {
-              priceCount += int.parse(value);
-              print("Current Price: $priceCount");
-            }
-          });
-          // Update the ValueNotifier with the new price
-          defualPrice.value = priceCount.toString();
-          print("Current Price in Downq: ${priceCount.toString()}");
-        } else {
-          defualPrice.value = service['prices'];
+            //for (var i = 0; i >= serviceList!.length; i++) {
+            var priceCount = 0;
+            price.forEach((key, value) {
+              print('key is $key and its value is $value ');
+              // Update priceCount based on serviceList if provided
+              if (serviceList!.contains(key)) {
+                priceCount += int.parse(value);
+                print("Current Price: $priceCount");
+              }
+            });
+            // Update the ValueNotifier with the new price
+            defualPrice.value = priceCount.toString();
+            print("Current Price in Downq: ${priceCount.toString()}");
+          } else {
+            defualPrice.value = service['prices'];
+          }
         }
-      }
-    });
+      });
+    } catch (e) {
+      print("Null value returned");
+      defualPrice.value = "0";
+    }
 
     // defualPrice = "select Option";
   }

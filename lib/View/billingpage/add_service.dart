@@ -25,6 +25,7 @@ class _ServiceInforState extends State<ServiceInfor> {
 
   String? controllerString;
   String? currentPrice = "____";
+  String price = '0';
 
   @override
   void initState() {
@@ -129,7 +130,9 @@ class _ServiceInforState extends State<ServiceInfor> {
                   ),
                   child: Center(
                     child: Text(
-                      'Charge Pricee: Rs $price',
+                      price == '0'
+                          ? 'Select Option'
+                          : 'Charge Pricee: Rs $price',
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
