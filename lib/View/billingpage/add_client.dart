@@ -28,22 +28,6 @@ class _ClientInforState extends State<ClientInfor> {
     super.dispose();
   }
 
-  void saveInputs() {
-    final clientName = clientNameController.text.trim();
-    final phoneNumber = phoneNumberController.text.trim();
-    final location = locationController.text.trim();
-
-    //saving...
-    print("clientName : $clientName");
-    print("Phone number: $phoneNumber");
-    print("Location: $location");
-
-//setter values
-    bill.setClientName = clientName;
-    bill.setPhoneNumber = phoneNumber;
-    bill.setLocation = location;
-  }
-
   @override
   Widget build(BuildContext context) {
     // Create controllers
@@ -85,6 +69,9 @@ class _ClientInforState extends State<ClientInfor> {
                   borderSide: BorderSide(color: Colors.white, width: 2.0),
                 ),
               ),
+              onChanged: (value) {
+                bill.setClientName = value.trim();
+              },
               onTap: () {
                 // Clear the text in the controller when the field is tapped
                 clientNameController.clear();
@@ -105,6 +92,9 @@ class _ClientInforState extends State<ClientInfor> {
                   borderSide: BorderSide(color: Colors.white, width: 2.0),
                 ),
               ),
+              onChanged: (value) {
+                bill.setPhoneNumber = value.trim(); // Update bill dynamically
+              },
               onTap: () {
                 // Clear the text in the controller when the field is tapped
                 phoneNumberController.clear();
@@ -129,16 +119,15 @@ class _ClientInforState extends State<ClientInfor> {
                   borderSide: BorderSide(color: Colors.white, width: 2.0),
                 ),
               ),
+              onChanged: (value) {
+                bill.setLocation = value.trim(); // Update bill dynamically
+              },
               onTap: () {
                 // Clear the text in the controller when the field is tapped
                 locationController.clear();
               },
             ),
             const SizedBox(height: 8.0),
-            ElevatedButton(
-              onPressed: saveInputs,
-              child: const Text('Save'),
-            ),
           ],
         ),
       ),
