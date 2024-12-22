@@ -28,4 +28,12 @@ class Bill {
   set setService(dynamic srv) => service = srv;
   set setPrice(String prc) => price = prc;
   //set setDateTime(DateTime dt) => dateTime = dt;
+
+  void detach() {
+    clientName = '';
+    phoneNumber = '';
+    location = '';
+    service = null;
+    price = '';
+  }
 }
