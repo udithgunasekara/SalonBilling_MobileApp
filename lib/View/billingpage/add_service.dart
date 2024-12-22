@@ -121,24 +121,31 @@ class _ServiceInforState extends State<ServiceInfor> {
               valueListenable: _viewModel.defualPrice,
               builder: (context, price, child) {
                 print("ValueListenableBuilder rebuilt with price: $price");
-                return Container(
-                  height: 80,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Center(
-                    child: Text(
-                      price == '0'
-                          ? 'Select Option'
-                          : 'Charge Pricee: Rs $price',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+
+                return GestureDetector(
+                  onTap: () {
+                    _viewModel.saveBill();
+                  },
+                  child: Container(
+                    height: 80,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Text(
+                        price == '0'
+                            ? 'Select Option'
+                            : 'Charge Pricee: Rs $price',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
+                    //in the saving save service and price
                   ),
                 );
               }),

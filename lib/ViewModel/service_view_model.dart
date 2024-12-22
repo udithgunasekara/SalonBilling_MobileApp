@@ -6,6 +6,7 @@ import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/View/services_catalogs/Haricut.dart';
 import 'package:salon_mobile/View/services_catalogs/dressing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
+import 'package:salon_mobile/ViewModel/bill.dart';
 
 class ServiceViewModel {
 //creating private constructor
@@ -21,6 +22,7 @@ class ServiceViewModel {
   }
 
   final ServiceRepository _serviceRepository = ServiceRepository();
+  final Bill bill = Bill();
 
   List<Map<String, dynamic>> _service = [];
   Map<String, dynamic> _servicesHash = {};
@@ -29,6 +31,11 @@ class ServiceViewModel {
   late Map<String, dynamic> salonBoxData;
 
   String? defualPricee = "____";
+
+  //For billing infor
+  late String billPrice;
+  late String serviceName;
+  List<String>? serviceNameList = null;
 
   //ValueNotifier for change state
   final ValueNotifier<String> defualPrice = ValueNotifier<String>("_____");
@@ -88,6 +95,7 @@ class ServiceViewModel {
     print("Check1 Service: $services");
     print("Check1 HashService: $servicesHash");
     print("what in Hive: $salonBoxData");
+    serviceName = text;
 
     try {
       salonBoxData.forEach((key, service) {
@@ -97,6 +105,7 @@ class ServiceViewModel {
             print("answered");
             print("YES with is MAP: $text");
             print("serviceList in model: $serviceList");
+            serviceNameList = serviceList;
 
             // access the key and value in map
 
@@ -111,18 +120,40 @@ class ServiceViewModel {
               }
             });
             // Update the ValueNotifier with the new price
-            defualPrice.value = priceCount.toString();
+            billPrice = priceCount.toString();
+            defualPrice.value = billPrice;
             print("Current Price in Downq: ${priceCount.toString()}");
           } else {
-            defualPrice.value = service['prices'];
+            billPrice = service["prices"];
+            defualPrice.value = billPrice;
           }
         }
       });
     } catch (e) {
       print("Null value returned");
-      defualPrice.value = "0";
+      billPrice = '0';
+      defualPrice.value = billPrice;
     }
 
     // defualPrice = "select Option";
+  }
+
+  void saveBill() async {
+    billPrice;
+    serviceName;
+    serviceNameList;
+
+    //setter value
+    bill.setPrice = billPrice;
+    bill.setService = serviceNameList ?? serviceName;
+
+    if (serviceNameList == null) {
+      print("Here we save single service $serviceName and price : $billPrice");
+      await _serviceRepository.saveServiceToFirebase(bill);
+    } else {
+      print(
+          "Here we save single service $serviceNameList and price : $billPrice");
+      await _serviceRepository.saveServiceToFirebase(bill);
+    }
   }
 }

@@ -1,23 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:salon_mobile/ViewModel/bill.dart';
 import 'package:salon_mobile/assets/theme/themecolor.dart';
+import 'package:salon_mobile/assets/theme/themeimages.dart';
 
-class ClientInfor extends StatelessWidget {
+class ClientInfor extends StatefulWidget {
   const ClientInfor({super.key});
+
+  @override
+  State<ClientInfor> createState() => _ClientInforState();
+}
+
+class _ClientInforState extends State<ClientInfor> {
+  Bill bill = Bill();
+
+  final TextEditingController clientNameController =
+      TextEditingController(text: 'Bianca Cooper');
+  final TextEditingController phoneNumberController =
+      TextEditingController(text: '077 98 875 412');
+  final TextEditingController locationController =
+      TextEditingController(text: 'Wariyapola');
+
+  @override
+  void dispose() {
+    clientNameController.dispose();
+    phoneNumberController.dispose();
+    locationController.dispose();
+    super.dispose();
+  }
+
+  void saveInputs() {
+    final clientName = clientNameController.text.trim();
+    final phoneNumber = phoneNumberController.text.trim();
+    final location = locationController.text.trim();
+
+    //saving...
+    print("clientName : $clientName");
+    print("Phone number: $phoneNumber");
+    print("Location: $location");
+
+//setter values
+    bill.setClientName = clientName;
+    bill.setPhoneNumber = phoneNumber;
+    bill.setLocation = location;
+  }
 
   @override
   Widget build(BuildContext context) {
     // Create controllers
-    final TextEditingController clientNameController =
-        TextEditingController(text: 'Bianca Cooper');
-    final TextEditingController phoneNumberController =
-        TextEditingController(text: '077 98 875 412');
-    final TextEditingController locationController =
-        TextEditingController(text: 'Wariyapola');
 
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Container(
         padding: const EdgeInsets.only(left: 30, right: 30),
+        height: 340,
         decoration: const BoxDecoration(
           color: mainColor,
           borderRadius: BorderRadius.only(
@@ -75,6 +110,11 @@ class ClientInfor extends StatelessWidget {
                 phoneNumberController.clear();
               },
             ),
+            // CircleAvatar(
+            //   backgroundImage: NetworkImage(
+            //       "https://img.icons8.com/?size=100&id=BPvo4DAyjprS&format=png&color=000000"),
+            //   radius: 25,
+            // ),
             const SizedBox(height: 8.0),
             TextField(
               controller: locationController,
@@ -94,16 +134,10 @@ class ClientInfor extends StatelessWidget {
                 locationController.clear();
               },
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle saving client information
-                  },
-                  child: const Text('Save'),
-                ),
-              ],
+            const SizedBox(height: 8.0),
+            ElevatedButton(
+              onPressed: saveInputs,
+              child: const Text('Save'),
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
+import 'package:salon_mobile/ViewModel/bill.dart';
 
 class Service {
   final String providerName;
@@ -67,6 +68,26 @@ class ServiceRepository {
       print("Services saved Hive is successfull.");
     } catch (e) {
       print("Error saving services to salonBox Hive: $e");
+    }
+  }
+
+  Future<void> saveServiceToFirebase(Bill bill) async {
+    try {
+      //Reference to the Bill collection
+      CollectionReference bills = _firestore.collection("Bills");
+
+      await bills.add({
+        'clientName': bill.getClientName,
+        'phoneNumber': bill.getPhoneNumber,
+        'location': bill.getLocation,
+        'service': bill.getService,
+        'price': bill.getPrice,
+
+        'timestamp': FieldValue.serverTimestamp(), // Firestore server timestamp
+      });
+      print("Service saved Successfully");
+    } catch (e) {
+      print('Error saving service: $e');
     }
   }
 }
