@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:salon_mobile/assets/theme/themebutton.dart';
 
 import '../../assets/theme/themecolor.dart';
 import 'package:salon_mobile/View/serivce_title.dart';
@@ -137,12 +138,15 @@ class HomeView extends StatelessWidget {
             ),
           ),
 
-          //create a button
-          ElevatedButton(
-            onPressed: () {
-              _viewModel.navigateToNewBill(context);
-            },
-            child: const Text('New Bill'),
+          // Custom theme button
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: ThemeButton(
+              text: 'Add New Bill',
+              onPressed: () {
+                _viewModel.navigateToNewBill(context);
+              },
+            ),
           ),
         ],
       ),

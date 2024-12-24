@@ -3,10 +3,13 @@
 //including search function and selected widget shower
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:salon_mobile/View/billingpage/charge_price.dart';
 import 'package:salon_mobile/View/services_catalogs/dressing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
+import 'package:salon_mobile/assets/theme/themebutton.dart';
+import 'package:salon_mobile/assets/theme/themecolor.dart';
 
 class ServiceInfor extends StatefulWidget {
   const ServiceInfor({super.key});
@@ -42,6 +45,15 @@ class _ServiceInforState extends State<ServiceInfor> {
 
   //Clean search bar
 
+  Future<void> _handleBackNavigation(BuildContext context) async {
+    // Force hide keyboard using system channel
+    await SystemChannels.textInput.invokeMethod('TextInput.hide');
+    await Future.delayed(const Duration(milliseconds: 50));
+    _searchController.clear();
+    _searchController.closeView('');
+    // FocusScope.of(context).unfocus();
+  }
+
   Future<void> _fetchServices() async {
     await _viewModel.fetchAndSaveServices();
     setState(() {
@@ -70,35 +82,116 @@ class _ServiceInforState extends State<ServiceInfor> {
     //     valueListenable: _viewModel.defualPrice,
     //     builder: (context, price, child) {
     return Padding(
-      padding: const EdgeInsets.only(left: 30, right: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ///sorting algo for emp frquently used services
-          SearchAnchor.bar(
-            searchController: _searchController,
-            suggestionsBuilder:
-                (BuildContext context, SearchController controller) {
-              final suggestion = _viewModel.searchServices(controller.text);
-              return suggestion.map((service) {
-                return ListTile(
-                  title: Text(service['name']),
-                  onTap: () {
-                    controller.closeView(service['name']);
-                    FocusScope.of(context).unfocus();
+          const Text(
+            "Add Service",
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.15),
+                  spreadRadius: 1,
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: SearchAnchor.bar(
+              searchController: _searchController,
+              barHintText: 'Search for services...',
+              viewHintText: 'Type to search services',
+              barLeading: const Icon(Icons.search, color: Colors.grey),
+              viewLeading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => _handleBackNavigation(context),
 
-                    controllerString = controller.text;
-                    //call function
-                    showCatalog(controller.text);
-                  },
-                );
-              }).toList();
-            },
-            onTap: () {
-              if (_searchController.text == controllerString) {
-                _searchController.clear();
-              }
-            },
+                ///
+              ),
+              viewTrailing: [
+                IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () => _searchController.clear(),
+                ),
+              ],
+              viewConstraints: const BoxConstraints(maxHeight: 350),
+              suggestionsBuilder:
+                  (BuildContext context, SearchController controller) {
+                final suggestion = _viewModel.searchServices(controller.text);
+
+                if (suggestion.isEmpty) {
+                  return [
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Text(
+                          'No services found',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ];
+                }
+
+                return suggestion.map((service) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: mainColor.withOpacity(0.1),
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: const CircleAvatar(
+                        backgroundColor: Color(0xFFE0E0E0),
+                        child: Icon(Icons.spa, color: mainColor),
+                      ),
+                      title: Text(
+                        service['name'],
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      trailing: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: mainColor,
+                      ),
+                      onTap: () {
+                        controller.closeView(service['name']);
+                        FocusScope.of(context).unfocus();
+                        controllerString = controller.text;
+                        showCatalog(controller.text);
+                      },
+                    ),
+                  );
+                }).toList();
+              },
+              onTap: () {
+                if (_searchController.text == controllerString) {
+                  _searchController.clear();
+                }
+              },
+            ),
           ),
 
           SizedBox(height: 30),
@@ -118,37 +211,17 @@ class _ServiceInforState extends State<ServiceInfor> {
           SizedBox(height: 70),
 
           ValueListenableBuilder<String>(
-              valueListenable: _viewModel.defualPrice,
-              builder: (context, price, child) {
-                print("ValueListenableBuilder rebuilt with price: $price");
-
-                return GestureDetector(
-                  onTap: () {
-                    _viewModel.saveBill();
-                  },
-                  child: Container(
-                    height: 80,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: Text(
-                        price == '0'
-                            ? 'Select Option'
-                            : 'Charge Pricee: Rs $price',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    //in the saving save service and price
-                  ),
-                );
-              }),
+            valueListenable: _viewModel.defualPrice,
+            builder: (context, price, child) {
+              return ThemeButton(
+                text:
+                    price == '0' ? 'Select Option' : 'Charge Price: Rs $price',
+                onPressed: () {
+                  _viewModel.saveBill();
+                },
+              );
+            },
+          ),
         ],
       ),
     );
