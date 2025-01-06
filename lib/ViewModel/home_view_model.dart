@@ -44,10 +44,28 @@ class HomeViewModel {
   List<Service> get services => _services;
 
   void navigateToNewBill(BuildContext context) {
-    // Implement navigation to the billing page
-    print('Navigating to the new bill page');
-    //page namge is billing_page.dart
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const BillingPage()));
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const BillingPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0); // Start from right
+          const end = Offset.zero; // End at center
+          const curve = Curves.easeInOutCirc; // Make it smooth
+
+          var tween =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(
+            position: offsetAnimation,
+            child: child,
+          );
+        },
+        transitionDuration:
+            const Duration(milliseconds: 400), // Animation duration
+      ),
+    );
   }
 }
