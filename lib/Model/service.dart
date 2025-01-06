@@ -84,6 +84,7 @@ class ServiceRepository {
         'location': bill.getLocation,
         'service': bill.getService,
         'price': bill.getPrice,
+        'whatsApp': bill.getWhatsAppStatus,
 
         'timestamp': FieldValue.serverTimestamp(), // Firestore server timestamp
       });

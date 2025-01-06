@@ -278,7 +278,7 @@ class _ServiceInforState extends State<ServiceInfor> {
                     context,
                     "Billing Success",
                     ToastType.success,
-                    duration: Duration(seconds: 3),
+                    duration: Duration(seconds: 2),
                     alignment: Alignment.bottomCenter,
                   );
                 } catch (e) {

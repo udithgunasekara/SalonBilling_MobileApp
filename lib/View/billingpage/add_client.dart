@@ -24,8 +24,12 @@ class _ClientInforState extends State<ClientInfor> {
   String? clientNameError;
   String? phoneNumberError;
   String? locationError;
-
   bool haveWhatsApp = true;
+
+  // Add flags to track if fields have been tapped
+  bool _isClientNameTapped = false;
+  bool _isPhoneNumberTapped = false;
+  bool _isLocationTapped = false;
 
   @override
   void initState() {
@@ -92,6 +96,13 @@ class _ClientInforState extends State<ClientInfor> {
     });
   }
 
+  void updateWhatsAppStatus(bool value) {
+    setState(() {
+      bill.setWhatsAppStatus = value;
+      print("Whatsapp Statusss: $haveWhatsApp");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -107,7 +118,6 @@ class _ClientInforState extends State<ClientInfor> {
           ),
         ),
         child: Form(
-          // Remove the form key and validators since we're handling validation manually
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -125,6 +135,14 @@ class _ClientInforState extends State<ClientInfor> {
                 cursorColor: Colors.white,
                 controller: clientNameController,
                 style: const TextStyle(color: mainTextColor, fontSize: 20),
+                onTap: () {
+                  if (!_isClientNameTapped) {
+                    setState(() {
+                      clientNameController.clear();
+                      _isClientNameTapped = true;
+                    });
+                  }
+                },
                 decoration: InputDecoration(
                   labelText: 'Client Name',
                   labelStyle:
@@ -149,6 +167,14 @@ class _ClientInforState extends State<ClientInfor> {
                 controller: phoneNumberController,
                 style: const TextStyle(color: mainTextColor, fontSize: 20),
                 keyboardType: TextInputType.number,
+                onTap: () {
+                  if (!_isPhoneNumberTapped) {
+                    setState(() {
+                      phoneNumberController.clear();
+                      _isPhoneNumberTapped = true;
+                    });
+                  }
+                },
                 decoration: InputDecoration(
                   labelText: 'WhatsApp Number',
                   labelStyle:
@@ -167,29 +193,6 @@ class _ClientInforState extends State<ClientInfor> {
                 ),
                 onChanged: updatePhoneNumber,
               ),
-              // Align(
-              //   alignment: Alignment.centerLeft,
-              //   child: Row(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       const Text(
-              //         "Haven't whatsapp? ",
-              //         style: TextStyle(color: Colors.white, fontSize: 12),
-              //       ),
-              //       IconButton(
-              //         icon: const ImageIcon(
-              //           AssetImage('assets/whatsapp.png'),
-              //           color: errorColor,
-              //           size: 25,
-              //         ),
-              //         onPressed: () {
-              //           // Add your onPressed code here
-              //         },
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -201,25 +204,32 @@ class _ClientInforState extends State<ClientInfor> {
                     icon: SvgPicture.asset(
                       haveWhatsApp
                           ? 'assets/whatsappsvg.svg'
-                          : 'assets/redwhatsappsvg.svg', // Correct path to your SVG files
-                      height: 30.0, // Set the size of the icon
+                          : 'assets/redwhatsappsvg.svg',
+                      height: 30.0,
                       width: 30.0,
                     ),
                     onPressed: () {
                       setState(() {
-                        haveWhatsApp =
-                            !haveWhatsApp; // Toggle the value of haveWhatsApp
+                        print("Values");
+                        haveWhatsApp = !haveWhatsApp;
+                        updateWhatsAppStatus(haveWhatsApp);
                       });
-                      // Add your onPressed code here
                     },
                   ),
                 ],
               ),
-
               // Location Field
               TextFormField(
                 controller: locationController,
                 style: const TextStyle(color: mainTextColor, fontSize: 20),
+                onTap: () {
+                  if (!_isLocationTapped) {
+                    setState(() {
+                      locationController.clear();
+                      _isLocationTapped = true;
+                    });
+                  }
+                },
                 decoration: InputDecoration(
                   labelText: 'Location',
                   labelStyle:

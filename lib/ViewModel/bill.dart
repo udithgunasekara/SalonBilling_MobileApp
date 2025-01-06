@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 
 class Bill {
@@ -6,6 +8,7 @@ class Bill {
   late String location;
   late dynamic service;
   late String price;
+  late bool whatsAppStatus = true;
   //late DateTime dateTime;
 
   //creating singleton
@@ -20,6 +23,8 @@ class Bill {
   String get getLocation => location;
   dynamic get getService => service;
   String get getPrice => price;
+  bool get getWhatsAppStatus => whatsAppStatus;
+
   //DateTime get getDateTime => dateTime;
 
   set setClientName(String name) => clientName = name;
@@ -27,6 +32,7 @@ class Bill {
   set setLocation(String loc) => location = loc;
   set setService(dynamic srv) => service = srv;
   set setPrice(String prc) => price = prc;
+  set setWhatsAppStatus(bool wtst) => whatsAppStatus = wtst;
   //set setDateTime(DateTime dt) => dateTime = dt;
 
   void detach() {
