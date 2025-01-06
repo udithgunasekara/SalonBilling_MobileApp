@@ -97,7 +97,7 @@ class _ClientInforState extends State<ClientInfor> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 40),
         height: 340,
         decoration: const BoxDecoration(
           color: mainColor,

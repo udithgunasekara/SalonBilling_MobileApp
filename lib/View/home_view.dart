@@ -21,16 +21,21 @@ class HomeView extends StatelessWidget {
     return formatter.format(now); // Format current date to "MMM yy"
   }
 
-  List<String> getCurrentWeek() {
+  List<Map<String, String>> getCurrentWeek() {
     final now = DateTime.now();
-    final startOfWeek = now.subtract(Duration(
-        days:
-            now.weekday - 1)); // Get the first day of the current week (Monday)
-    List<String> weekDays = [];
+    final startOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    List<Map<String, String>> weekDays = [];
+
     for (int i = 0; i < 7; i++) {
       final day = startOfWeek.add(Duration(days: i));
-      final formatter = DateFormat('d'); // Format the date to show day number
-      weekDays.add(formatter.format(day));
+      final dayNumber = DateFormat('d').format(day);
+      final dayName = DateFormat('E')
+          .format(day)
+          .substring(0, 3); // Get first 3 letters of day name
+      weekDays.add({
+        'number': dayNumber,
+        'name': dayName,
+      });
     }
     return weekDays;
   }
@@ -78,50 +83,56 @@ class HomeView extends StatelessWidget {
                 ),
                 // Display current month
                 Text(
-                  getCurrentMonth(),
+                  '${getCurrentMonth()},',
                   style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 3),
                 // Display days of the current week in a horizontal list
                 Row(
-                  mainAxisAlignment:
-                      MainAxisAlignment.spaceEvenly, // Distribute space evenly
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: getCurrentWeek().map((day) {
-                    bool isCurrentDay =
-                        day == currentDay; // Check if it's the current day
+                    bool isCurrentDay = day['number'] == currentDay;
                     return Container(
                       margin: const EdgeInsets.symmetric(horizontal: 2),
                       width: MediaQuery.of(context).size.width / 7 - 10,
                       padding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                      ),
+                          vertical: 8), // Reduced padding to fit both texts
                       decoration: BoxDecoration(
-                        color: isCurrentDay ? Colors.yellow : Colors.white,
+                        color: isCurrentDay ? yellowColor : Colors.white,
                         borderRadius: BorderRadius.circular(8),
-                        border: isCurrentDay
-                            ? null
-                            : Border.all(
-                                color:
-                                    mainColor), // Blue border for non-current days
+                        border:
+                            isCurrentDay ? null : Border.all(color: mainColor),
                       ),
-                      child: Center(
-                        child: Text(
-                          day,
-                          style: TextStyle(
-                            color: isCurrentDay
-                                ? Colors.white
-                                : Colors
-                                    .blueAccent, // White text for current day, blue for others
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            day['name']!, // Show day name
+                            style: TextStyle(
+                              color: isCurrentDay
+                                  ? Colors.white
+                                  : Colors.blueAccent,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
+                          Text(
+                            day['number']!, // Show day number
+                            style: TextStyle(
+                              color: isCurrentDay
+                                  ? Colors.white
+                                  : Colors.blueAccent,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }).toList(),
@@ -133,11 +144,13 @@ class HomeView extends StatelessWidget {
             child: ListView.builder(
               itemCount: _viewModel.services.length,
               itemBuilder: (context, index) {
-                return ServiceTile(_viewModel.services[index]);
+                return ServiceTile(
+                  _viewModel.services[index],
+                  index: index,
+                );
               },
             ),
           ),
-
           // Custom theme button
           Padding(
             padding: const EdgeInsets.all(20.0),

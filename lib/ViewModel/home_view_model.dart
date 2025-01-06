@@ -8,12 +8,14 @@ class HomeViewModel {
       providerName: 'Nimal',
       serviceType: 'Hair Cut',
       contactNumber: '077 54 865 241',
+      time: "3.23PM",
       price: 1800,
     ),
     Service(
       providerName: 'Amasha',
       serviceType: 'Threading',
       contactNumber: '077 54 865 241',
+      time: "3.23PM",
       price: 100,
     ),
     Service(
@@ -21,18 +23,21 @@ class HomeViewModel {
       serviceType: 'Threading',
       contactNumber: '077 54 865 241',
       price: 100,
+      time: "3.23PM",
     ),
     Service(
       providerName: 'Amasha',
       serviceType: 'Threading',
       contactNumber: '077 54 865 241',
       price: 100,
+      time: "3.23PM",
     ),
     Service(
       providerName: 'Amasha',
       serviceType: 'Threading',
       contactNumber: '077 54 865 241',
       price: 100,
+      time: "3.23PM",
     ),
   ];
 

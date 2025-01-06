@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 // Theme Color maintaining
 // Main theme color
 const mainColor = Color(0xFF3D70FF);
+const yellowColor = Color.fromRGBO(236, 178, 46, 1);
 const mainTextColor = Colors.white;
+const buttonText = Color.fromRGBO(0, 0, 0, 0.75);
 
 // Additional theme colors
 const secondaryColor =

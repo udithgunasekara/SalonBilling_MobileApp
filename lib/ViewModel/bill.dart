@@ -30,10 +30,10 @@ class Bill {
   //set setDateTime(DateTime dt) => dateTime = dt;
 
   void detach() {
-    clientName = '';
-    phoneNumber = '';
-    location = '';
-    service = null;
-    price = '';
+    // clientName = '';
+    // phoneNumber = '';
+    // location = '';
+    setService = null;
+    setPrice = '';
   }
 }

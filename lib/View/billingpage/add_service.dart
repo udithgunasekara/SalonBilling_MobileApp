@@ -2,6 +2,8 @@
 
 //including search function and selected widget shower
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:salon_mobile/View/billingpage/charge_price.dart';
@@ -84,7 +86,7 @@ class _ServiceInforState extends State<ServiceInfor> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           ///sorting algo for emp frquently used services
           const Text(
@@ -208,20 +210,54 @@ class _ServiceInforState extends State<ServiceInfor> {
               style: TextStyle(fontSize: 16),
             ),
           // i need to push below container into the buttom of the cr
-          SizedBox(height: 70),
+          SizedBox(height: 10),
 
-          ValueListenableBuilder<String>(
-            valueListenable: _viewModel.defualPrice,
-            builder: (context, price, child) {
-              return ThemeButton(
-                text:
-                    price == '0' ? 'Select Option' : 'Charge Price: Rs $price',
-                onPressed: () {
-                  _viewModel.saveBill();
-                },
-              );
-            },
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Charge Price',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: buttonText,
+                  ),
+                ),
+                ValueListenableBuilder<String>(
+                  valueListenable: _viewModel.defualPrice,
+                  builder: (context, price, child) {
+                    return Text(
+                      price == '0' ? 'Rs. 0.00' : 'Rs. ${price}.00',
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                        color: buttonText,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
+          SizedBox(height: 10),
+          ThemeButton(
+              text: "Confirm Bill",
+              onPressed: () {
+                _viewModel.saveBill();
+              }),
         ],
       ),
     );

@@ -150,10 +150,14 @@ class ServiceViewModel {
     if (serviceNameList == null) {
       print("Here we save single service $serviceName and price : $billPrice");
       await _serviceRepository.saveServiceToFirebase(bill);
+
+      bill.detach();
     } else {
       print(
           "Here we save single service $serviceNameList and price : $billPrice");
       await _serviceRepository.saveServiceToFirebase(bill);
+      serviceNameList = null;
+      bill.detach();
     }
   }
 }

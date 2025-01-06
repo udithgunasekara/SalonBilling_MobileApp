@@ -10,12 +10,14 @@ class Service {
   final String serviceType;
   final String contactNumber;
   final int price;
+  final String time;
 
   Service({
     required this.providerName,
     required this.serviceType,
     required this.contactNumber,
     required this.price,
+    required this.time,
   });
 }
 
