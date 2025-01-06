@@ -13,6 +13,8 @@ import 'package:salon_mobile/View/services_catalogs/threading.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'package:salon_mobile/assets/theme/themebutton.dart';
 import 'package:salon_mobile/assets/theme/themecolor.dart';
+import 'package:salon_mobile/assets/theme/toastbanner.dart';
+import 'package:toastification/toastification.dart';
 
 class ServiceInfor extends StatefulWidget {
   const ServiceInfor({super.key});
@@ -270,22 +272,23 @@ class _ServiceInforState extends State<ServiceInfor> {
                 try {
                   await _viewModel.saveBill();
                   // Show success toast
-                  Fluttertoast.showToast(
-                      msg: "Bill saved successfully",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      backgroundColor: Colors.green,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  // Show success toast
+                  // Show success toast
+                  ToastHelper.toastBanner(
+                    context,
+                    "Billing Success",
+                    ToastType.success,
+                    duration: Duration(seconds: 3),
+                    alignment: Alignment.bottomCenter,
+                  );
                 } catch (e) {
-                  Fluttertoast.showToast(
-                      msg: "Please set the price before confirming",
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.CENTER,
-                      timeInSecForIosWeb: 2,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0);
+                  ToastHelper.toastBanner(
+                    context,
+                    "Please Check Informations again",
+                    ToastType.error,
+                    duration: Duration(seconds: 3),
+                    alignment: Alignment.bottomCenter,
+                  );
                 }
               }),
         ],
