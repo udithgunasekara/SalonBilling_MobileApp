@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/View/services_catalogs/Haricut.dart';
@@ -138,26 +139,58 @@ class ServiceViewModel {
     // defualPrice = "select Option";
   }
 
-  void saveBill() async {
-    billPrice;
-    serviceName;
-    serviceNameList;
+  Future<void> saveBill() async {
+    try {
+      if (billPrice.isEmpty || billPrice == '0') {
+        throw Exception('Bill price cannot be empty or zero');
+      }
 
-    //setter value
-    bill.setPrice = billPrice;
-    bill.setService = serviceNameList ?? serviceName;
+      serviceName;
+      serviceNameList;
 
-    if (serviceNameList == null) {
-      print("Here we save single service $serviceName and price : $billPrice");
-      await _serviceRepository.saveServiceToFirebase(bill);
+      //setter value
+      bill.setPrice = billPrice;
+      bill.setService = serviceNameList ?? serviceName;
 
-      bill.detach();
-    } else {
-      print(
-          "Here we save single service $serviceNameList and price : $billPrice");
-      await _serviceRepository.saveServiceToFirebase(bill);
-      serviceNameList = null;
-      bill.detach();
+      if (serviceNameList == null) {
+        print(
+            "Here we save single service $serviceName and price : $billPrice");
+        await _serviceRepository.saveServiceToFirebase(bill);
+        bill.detach();
+      } else {
+        print(
+            "Here we save single service $serviceNameList and price : $billPrice");
+        await _serviceRepository.saveServiceToFirebase(bill);
+        serviceNameList = null;
+        bill.detach();
+      }
+    } catch (e) {
+      print('Error saving bill: $e');
+      throw e;
     }
   }
 }
+
+
+
+// billPrice;
+//     serviceName;
+//     serviceNameList;
+
+//     //setter value
+//     bill.setPrice = billPrice;
+//     bill.setService = serviceNameList ?? serviceName;
+
+//     if (serviceNameList == null) {
+//       print("Here we save single service $serviceName and price : $billPrice");
+//       await _serviceRepository.saveServiceToFirebase(bill);
+
+//       bill.detach();
+//     } else {
+//       print(
+//           "Here we save single service $serviceNameList and price : $billPrice");
+//       await _serviceRepository.saveServiceToFirebase(bill);
+//       serviceNameList = null;
+//       bill.detach();
+//     }
+//   }

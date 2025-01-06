@@ -6,6 +6,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:salon_mobile/View/billingpage/charge_price.dart';
 import 'package:salon_mobile/View/services_catalogs/dressing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
@@ -27,6 +28,7 @@ class _ServiceInforState extends State<ServiceInfor> {
 
   List<Map<String, dynamic>> _filteredServices = [];
   Widget? _selectedCalalogWidget;
+  bool notifierPrice = false;
 
   String? controllerString;
   String? currentPrice = "____";
@@ -44,7 +46,6 @@ class _ServiceInforState extends State<ServiceInfor> {
 
     //Lets set threading card first
   }
-
   //Clean search bar
 
   Future<void> _handleBackNavigation(BuildContext context) async {
@@ -72,6 +73,7 @@ class _ServiceInforState extends State<ServiceInfor> {
 
 //set service catalog
   void showCatalog(String text) {
+    notifierPrice = true;
     setState(() {
       _selectedCalalogWidget = _viewModel.showSelectedService(text);
     });
@@ -236,27 +238,55 @@ class _ServiceInforState extends State<ServiceInfor> {
                     color: buttonText,
                   ),
                 ),
-                ValueListenableBuilder<String>(
-                  valueListenable: _viewModel.defualPrice,
-                  builder: (context, price, child) {
-                    return Text(
-                      price == '0' ? 'Rs. 0.00' : 'Rs. ${price}.00',
-                      style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w500,
-                        color: buttonText,
+                notifierPrice
+                    ? ValueListenableBuilder<String>(
+                        valueListenable: _viewModel.defualPrice,
+                        builder: (context, price, child) {
+                          return Text(
+                            price == '0' ? 'Rs. 0.00' : 'Rs. ${price}.00',
+                            style: const TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                              color: buttonText,
+                            ),
+                          );
+                        },
+                      )
+                    : const Text(
+                        'Rs. 0.00',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                          color: buttonText,
+                        ),
                       ),
-                    );
-                  },
-                ),
               ],
             ),
           ),
           SizedBox(height: 10),
           ThemeButton(
               text: "Confirm Bill",
-              onPressed: () {
-                _viewModel.saveBill();
+              onPressed: () async {
+                try {
+                  await _viewModel.saveBill();
+                  // Show success toast
+                  Fluttertoast.showToast(
+                      msg: "Bill saved successfully",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                } catch (e) {
+                  Fluttertoast.showToast(
+                      msg: "Please set the price before confirming",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 2,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0);
+                }
               }),
         ],
       ),
