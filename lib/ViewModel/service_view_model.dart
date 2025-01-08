@@ -1,12 +1,16 @@
-import 'dart:ffi';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/View/services_catalogs/Haricut.dart';
+import 'package:salon_mobile/View/services_catalogs/cleanups.dart';
 import 'package:salon_mobile/View/services_catalogs/dressing.dart';
+import 'package:salon_mobile/View/services_catalogs/facials.dart';
+import 'package:salon_mobile/View/services_catalogs/galvanicMassage.dart';
+import 'package:salon_mobile/View/services_catalogs/menique.dart';
+import 'package:salon_mobile/View/services_catalogs/pedique.dart';
+import 'package:salon_mobile/View/services_catalogs/pimple_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
+import 'package:salon_mobile/View/services_catalogs/wax.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
 class ServiceViewModel {
@@ -26,7 +30,7 @@ class ServiceViewModel {
   final Bill bill = Bill();
 
   List<Map<String, dynamic>> _service = [];
-  Map<String, dynamic> _servicesHash = {};
+  final Map<String, dynamic> _servicesHash = {};
 
   late Box salonBox;
   late Map<String, dynamic> salonBoxData;
@@ -36,7 +40,7 @@ class ServiceViewModel {
   //For billing infor
   late String billPrice;
   late String serviceName;
-  List<String>? serviceNameList = null;
+  List<String>? serviceNameList;
 
   //ValueNotifier for change state
   final ValueNotifier<String> defualPrice = ValueNotifier<String>("_____");
@@ -73,15 +77,43 @@ class ServiceViewModel {
         print("Test selection pass: $text");
         passFinalValue(
             text); //Here i can improve the code add it upper switch case
-        return Threading();
+        return const Threading();
 
       case 'Haircut':
         passFinalValue(text);
-        return Haricut();
+        return const Haricut();
 
       case 'Dressing':
         passFinalValue(text);
-        return Dressing();
+        return const Dressing();
+
+      case 'Facials':
+        passFinalValue(text);
+        return const Facials();
+
+      case 'Clean Ups':
+        passFinalValue(text);
+        return const CleanUps();
+
+      case 'Wax':
+        passFinalValue(text);
+        return const Wax();
+//donwto update db
+      case 'Galvanic Massage':
+        passFinalValue(text);
+        return const GalvanicMassage();
+
+      case 'PimpleTreatment':
+        passFinalValue(text);
+        return const PimpleTreatment();
+
+      case 'Menique':
+        passFinalValue(text);
+        return const Menique();
+
+      case 'Pedique':
+        passFinalValue(text);
+        return const Pedique();
 
       default:
         return Container(); // return empty container for ref null
@@ -166,7 +198,7 @@ class ServiceViewModel {
       }
     } catch (e) {
       print('Error saving bill: $e');
-      throw e;
+      rethrow;
     }
   }
 }

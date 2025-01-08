@@ -1,7 +1,3 @@
-import 'dart:ffi';
-
-import 'package:flutter/foundation.dart';
-
 class Bill {
   late String clientName;
   late String phoneNumber;

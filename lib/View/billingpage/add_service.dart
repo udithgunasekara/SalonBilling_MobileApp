@@ -2,19 +2,12 @@
 
 //including search function and selected widget shower
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:salon_mobile/View/billingpage/charge_price.dart';
-import 'package:salon_mobile/View/services_catalogs/dressing.dart';
-import 'package:salon_mobile/View/services_catalogs/threading.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'package:salon_mobile/assets/theme/themebutton.dart';
 import 'package:salon_mobile/assets/theme/themecolor.dart';
 import 'package:salon_mobile/assets/theme/toastbanner.dart';
-import 'package:toastification/toastification.dart';
 
 class ServiceInfor extends StatefulWidget {
   const ServiceInfor({super.key});
@@ -101,7 +94,7 @@ class _ServiceInforState extends State<ServiceInfor> {
               color: Colors.black,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Container(
@@ -200,7 +193,7 @@ class _ServiceInforState extends State<ServiceInfor> {
             ),
           ),
 
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           //showing catalog
           //Have some functions to implement
           //show Wvalue widget in there
@@ -214,7 +207,7 @@ class _ServiceInforState extends State<ServiceInfor> {
               style: TextStyle(fontSize: 16),
             ),
           // i need to push below container into the buttom of the cr
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
@@ -245,7 +238,7 @@ class _ServiceInforState extends State<ServiceInfor> {
                         valueListenable: _viewModel.defualPrice,
                         builder: (context, price, child) {
                           return Text(
-                            price == '0' ? 'Rs. 0.00' : 'Rs. ${price}.00',
+                            price == '0' ? 'Rs. 0.00' : 'Rs. $price.00',
                             style: const TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w500,
@@ -265,7 +258,7 @@ class _ServiceInforState extends State<ServiceInfor> {
               ],
             ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           ThemeButton(
               text: "Confirm Bill",
               onPressed: () async {
@@ -278,7 +271,7 @@ class _ServiceInforState extends State<ServiceInfor> {
                     context,
                     "Billing Success",
                     ToastType.success,
-                    duration: Duration(seconds: 2),
+                    duration: const Duration(seconds: 2),
                     alignment: Alignment.bottomCenter,
                   );
                 } catch (e) {
@@ -286,7 +279,7 @@ class _ServiceInforState extends State<ServiceInfor> {
                     context,
                     "Please Check Informations again",
                     ToastType.error,
-                    duration: Duration(seconds: 3),
+                    duration: const Duration(seconds: 3),
                     alignment: Alignment.bottomCenter,
                   );
                 }

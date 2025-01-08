@@ -98,22 +98,22 @@ class _ToastConfig {
 _ToastConfig _getToastConfig(ToastType type) {
   switch (type) {
     case ToastType.success:
-      return _ToastConfig(
+      return const _ToastConfig(
         toastificationType: ToastificationType.success,
         backgroundColor: Colors.green,
       );
     case ToastType.error:
-      return _ToastConfig(
+      return const _ToastConfig(
         toastificationType: ToastificationType.error,
         backgroundColor: Colors.red,
       );
     case ToastType.warning:
-      return _ToastConfig(
+      return const _ToastConfig(
         toastificationType: ToastificationType.warning,
         backgroundColor: Colors.orange,
       );
     case ToastType.info:
-      return _ToastConfig(
+      return const _ToastConfig(
         toastificationType: ToastificationType.info,
         backgroundColor: Colors.blue,
       );

@@ -2,28 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'package:salon_mobile/assets/theme/themecolor.dart';
 
-class Dressing extends StatefulWidget {
-  const Dressing({super.key});
+class CleanUps extends StatefulWidget {
+  const CleanUps({super.key});
 
   @override
-  _DressingState createState() => _DressingState();
+  _CleanUpsState createState() => _CleanUpsState();
 }
 
-class _DressingState extends State<Dressing> {
+class _CleanUpsState extends State<CleanUps> {
   final _viewModel = ServiceViewModel();
-  final List<bool> _isSelected = [false, false, false];
-  List<String> servicers = [];
+  int _selectedIndex = -1;
+  String? selectedService;
 
-  //pass selected services
-  void selectedServices(String text) {
-    if (!servicers.contains(text)) {
-      servicers.add(text);
-    } else {
-      servicers.remove(text);
-    }
-    print("Service List: $servicers");
-    print("calling...");
-    _viewModel.passFinalValue("Dressing", serviceList: servicers);
+  void selectService(String text, int index) {
+    setState(() {
+      if (_selectedIndex == index) {
+        // Deselect if tapping the same item
+        _selectedIndex = -1;
+        selectedService = null;
+      } else {
+        // Select new item
+        _selectedIndex = index;
+        selectedService = text;
+      }
+    });
+
+    // Update ViewModel with selected service or empty list
+    List<String> serviceList =
+        selectedService != null ? [selectedService!] : [];
+    _viewModel.passFinalValue("Clean Ups", serviceList: serviceList);
   }
 
   @override
@@ -46,13 +53,13 @@ class _DressingState extends State<Dressing> {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Normal Dressing',
+                      'Clean Ups',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -62,18 +69,22 @@ class _DressingState extends State<Dressing> {
                     Container(
                       margin: const EdgeInsets.only(top: 2.0),
                       height: 2.0,
-                      width: 120,
+                      width: 100,
                       color: mainColor,
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 _serviceButton(
-                    'Hair Dressing', 0), // Pass the index for state tracking
+                  title: 'Pack',
+                  index: 0,
+                ),
                 const SizedBox(height: 16),
-                _serviceButton('Dress Dressing', 1),
-                const SizedBox(height: 16),
-                _serviceButton('MakeUp', 2),
+                _serviceButton(
+                  title: 'Without Pack',
+                  index: 1,
+                  initiallySelected: true,
+                ),
               ],
             ),
           ),
@@ -82,26 +93,21 @@ class _DressingState extends State<Dressing> {
     );
   }
 
-  Widget _serviceButton(String title, int index) {
-    return GestureDetector(
-      onTap: () {
-        setState(
-          () {
-            // Toggle the selected state of the clicked button
-            _isSelected[index] = !_isSelected[index];
+  Widget _serviceButton({
+    required String title,
+    required int index,
+    bool initiallySelected = false,
+  }) {
+    final bool isSelected = _selectedIndex == index;
 
-            print("Seletect Title: $title");
-          },
-        );
-        print("JJJ");
-        selectedServices(title);
-      },
+    return GestureDetector(
+      onTap: () => selectService(title, index),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         decoration: BoxDecoration(
           border: Border.all(color: mainColor),
-          color: _isSelected[index] ? Colors.blue.shade50 : Colors.white,
+          color: isSelected ? Colors.blue.shade50 : Colors.white,
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Center(

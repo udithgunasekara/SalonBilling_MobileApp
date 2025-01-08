@@ -11,7 +11,7 @@ class ThemeButton extends StatelessWidget {
   final TextStyle textStyle;
 
   const ThemeButton({
-    Key? key,
+    super.key,
     this.height = 70, // Default height
     this.width = double.infinity, // Default width
     this.color = mainColor, // Default color
@@ -23,7 +23,7 @@ class ThemeButton extends StatelessWidget {
       fontSize: 22,
       fontWeight: FontWeight.w500,
     ),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

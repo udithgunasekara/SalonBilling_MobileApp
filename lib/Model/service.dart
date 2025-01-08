@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:hive/hive.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
@@ -48,9 +47,9 @@ class ServiceRepository {
       await _saveServiceToHive(services);
 
       // Print services to console
-      services.forEach((service) {
-        print('Service: $service');
-      });
+      for (var service in services) {
+        print('tttttService: $service');
+      }
 
       return services;
     } on SocketException {

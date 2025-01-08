@@ -2,28 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'package:salon_mobile/assets/theme/themecolor.dart';
 
-class Dressing extends StatefulWidget {
-  const Dressing({super.key});
+class Wax extends StatefulWidget {
+  const Wax({super.key});
 
   @override
-  _DressingState createState() => _DressingState();
+  _WaxState createState() => _WaxState();
 }
 
-class _DressingState extends State<Dressing> {
+class _WaxState extends State<Wax> {
   final _viewModel = ServiceViewModel();
-  final List<bool> _isSelected = [false, false, false];
-  List<String> servicers = [];
+  final List<bool> _isSelected = List.generate(2, (index) => false);
+  List<String> selectedServices = [];
 
-  //pass selected services
-  void selectedServices(String text) {
-    if (!servicers.contains(text)) {
-      servicers.add(text);
-    } else {
-      servicers.remove(text);
-    }
-    print("Service List: $servicers");
-    print("calling...");
-    _viewModel.passFinalValue("Dressing", serviceList: servicers);
+  void selectService(String text, int index) {
+    setState(() {
+      _isSelected[index] = !_isSelected[index];
+
+      if (_isSelected[index]) {
+        // Add service if selected
+        if (!selectedServices.contains(text)) {
+          selectedServices.add(text);
+        }
+      } else {
+        // Remove service if deselected
+        selectedServices.remove(text);
+      }
+    });
+
+    // Update ViewModel with selected services
+    _viewModel.passFinalValue("Wax", serviceList: selectedServices);
   }
 
   @override
@@ -46,13 +53,13 @@ class _DressingState extends State<Dressing> {
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Normal Dressing',
+                      'Wax',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -62,18 +69,21 @@ class _DressingState extends State<Dressing> {
                     Container(
                       margin: const EdgeInsets.only(top: 2.0),
                       height: 2.0,
-                      width: 120,
+                      width: 50,
                       color: mainColor,
                     ),
                   ],
                 ),
                 const SizedBox(height: 16),
                 _serviceButton(
-                    'Hair Dressing', 0), // Pass the index for state tracking
+                  title: 'Hands',
+                  index: 0,
+                ),
                 const SizedBox(height: 16),
-                _serviceButton('Dress Dressing', 1),
-                const SizedBox(height: 16),
-                _serviceButton('MakeUp', 2),
+                _serviceButton(
+                  title: 'Legs',
+                  index: 1,
+                ),
               ],
             ),
           ),
@@ -82,20 +92,12 @@ class _DressingState extends State<Dressing> {
     );
   }
 
-  Widget _serviceButton(String title, int index) {
+  Widget _serviceButton({
+    required String title,
+    required int index,
+  }) {
     return GestureDetector(
-      onTap: () {
-        setState(
-          () {
-            // Toggle the selected state of the clicked button
-            _isSelected[index] = !_isSelected[index];
-
-            print("Seletect Title: $title");
-          },
-        );
-        print("JJJ");
-        selectedServices(title);
-      },
+      onTap: () => selectService(title, index),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 12.0),
