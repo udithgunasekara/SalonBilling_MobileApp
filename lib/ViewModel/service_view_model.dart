@@ -10,6 +10,7 @@ import 'package:salon_mobile/View/services_catalogs/dye_hair.dart';
 import 'package:salon_mobile/View/services_catalogs/facials.dart';
 import 'package:salon_mobile/View/services_catalogs/galvanicMassage.dart';
 import 'package:salon_mobile/View/services_catalogs/hair_curl.dart';
+import 'package:salon_mobile/View/services_catalogs/hair_iron.dart';
 import 'package:salon_mobile/View/services_catalogs/menique.dart';
 import 'package:salon_mobile/View/services_catalogs/oil_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/pedique.dart';
@@ -18,6 +19,7 @@ import 'package:salon_mobile/View/services_catalogs/pimple_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/rebonding.dart';
 import 'package:salon_mobile/View/services_catalogs/relaxing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
+import 'package:salon_mobile/View/services_catalogs/tonic_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/wax.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
@@ -47,7 +49,7 @@ class ServiceViewModel {
 
   //For billing infor
   late String billPrice;
-  late String serviceName;
+  late String? serviceName;
   List<String>? serviceNameList;
 
   //ValueNotifier for change state
@@ -111,7 +113,7 @@ class ServiceViewModel {
         passFinalValue(text);
         return const GalvanicMassage();
 
-      case 'PimpleTreatment':
+      case 'Pimple Treatment':
         passFinalValue(text);
         return const PimpleTreatment();
 
@@ -155,6 +157,14 @@ class ServiceViewModel {
       case 'Dye Hair':
         passFinalValue(text);
         return const DyeHair();
+
+      case 'Tonic Treatment':
+        passFinalValue(text);
+        return const TonicTreatment();
+
+      case 'Hair Iron':
+        passFinalValue(text);
+        return const HairIron();
 
       default:
         return Container(); // return empty container for ref null
@@ -213,6 +223,7 @@ class ServiceViewModel {
   }
 
   Future<void> saveBill() async {
+    //Variable: billPrice, ServiceName, ServiceList
     try {
       if (billPrice.isEmpty || billPrice == '0') {
         throw Exception('Bill price cannot be empty or zero');
@@ -232,7 +243,7 @@ class ServiceViewModel {
         bill.detach();
       } else {
         print(
-            "Here we save single service $serviceNameList and price : $billPrice");
+            "Here we save Multi service $serviceNameList and price : $billPrice");
         await _serviceRepository.saveServiceToFirebase(bill);
         serviceNameList = null;
         bill.detach();
@@ -246,7 +257,9 @@ class ServiceViewModel {
   //handling non fixed prices
 // @notify values for defualt values
 
-  void notifychanges(String price) {
+  void notifychanges(String price, String? selectedService) {
     defualPrice.value = price;
+    billPrice = price;
+    serviceName = selectedService;
   }
 }

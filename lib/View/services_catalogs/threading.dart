@@ -12,25 +12,31 @@ class Threading extends StatefulWidget {
 class _ThreadingState extends State<Threading> {
   final _viewModel = ServiceViewModel();
   int _selectedIndex = -1;
-  String? selectedService;
+  List<String> selectedServices = [];
 
-  void selectService(String text, int index) {
+  void selectService(String text) {
     setState(() {
-      if (_selectedIndex == index) {
-        // Deselect if tapping the same item
-        _selectedIndex = -1;
-        selectedService = null;
+      if (text == 'Full Face') {
+        // If Full Face is selected, clear all other selections
+        selectedServices = ['Full Face'];
       } else {
-        // Select new item
-        _selectedIndex = index;
-        selectedService = text;
+        // For other options
+        if (selectedServices.contains('Full Face')) {
+          // If Full Face was previously selected, clear it
+          selectedServices.clear();
+        }
+
+        if (selectedServices.contains(text)) {
+          // If service is already selected, remove it
+          selectedServices.remove(text);
+        } else {
+          // Add the new service
+          selectedServices.add(text);
+        }
       }
     });
 
-    // Update ViewModel with selected service or empty list
-    List<String> serviceList =
-        selectedService != null ? [selectedService!] : [];
-    _viewModel.passFinalValue("Threading", serviceList: serviceList);
+    _viewModel.passFinalValue("Threading", serviceList: selectedServices);
   }
 
   @override
@@ -77,18 +83,14 @@ class _ThreadingState extends State<Threading> {
                 const SizedBox(height: 16),
                 _serviceButton(
                   title: 'Full Face',
-                  index: 0,
                 ),
                 const SizedBox(height: 16),
                 _serviceButton(
                   title: 'Upper Lip',
-                  index: 1,
                 ),
                 const SizedBox(height: 16),
                 _serviceButton(
                   title: 'Eye Brows',
-                  index: 2,
-                  initiallySelected: true,
                 ),
               ],
             ),
@@ -100,13 +102,11 @@ class _ThreadingState extends State<Threading> {
 
   Widget _serviceButton({
     required String title,
-    required int index,
-    bool initiallySelected = false,
   }) {
-    final bool isSelected = _selectedIndex == index;
+    final bool isSelected = selectedServices.contains(title);
 
     return GestureDetector(
-      onTap: () => selectService(title, index),
+      onTap: () => selectService(title),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 12.0),

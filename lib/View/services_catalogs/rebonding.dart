@@ -14,7 +14,7 @@ class _RebondingState extends State<Rebonding> {
   bool isEditing = false;
   final TextEditingController _priceController = TextEditingController();
   final _viewModel = ServiceViewModel();
-
+  final FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
@@ -32,7 +32,12 @@ class _RebondingState extends State<Rebonding> {
       if (isEditing) {
         // Save the new price when finishing edit
         price = double.tryParse(_priceController.text) ?? price;
-        _viewModel.notifychanges(price.toInt().toString());
+        _viewModel.notifychanges(price.toInt().toString(), 'Rebonding');
+      } else {
+        _priceController.clear();
+        Future.delayed(const Duration(milliseconds: 50), () {
+          FocusScope.of(context).requestFocus(_focusNode);
+        });
       }
       isEditing = !isEditing;
     });
@@ -118,6 +123,7 @@ class _RebondingState extends State<Rebonding> {
                                   width: 80,
                                   child: TextField(
                                     controller: _priceController,
+                                    focusNode: _focusNode,
                                     keyboardType: TextInputType.number,
                                     style: const TextStyle(
                                       fontSize: 24,

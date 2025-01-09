@@ -312,7 +312,7 @@ class _DyeHairState extends State<DyeHair> {
     setState(() {
       if (isEditing) {
         price = double.tryParse(_priceController.text) ?? price;
-        _viewModel.notifychanges(price.toInt().toString());
+        _viewModel.notifychanges(price.toInt().toString(), selectedOption);
       } else {
         _priceController.clear();
         Future.delayed(const Duration(milliseconds: 50), () {
@@ -459,6 +459,7 @@ class _DyeHairState extends State<DyeHair> {
       onTap: () {
         setState(() {
           selectedOption = option;
+          _viewModel.notifychanges(price.toInt().toString(), selectedOption);
         });
       },
       child: Container(

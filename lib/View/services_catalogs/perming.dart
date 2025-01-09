@@ -32,7 +32,7 @@ class _PermingState extends State<Perming> {
     setState(() {
       if (isEditing) {
         price = double.tryParse(_priceController.text) ?? price;
-        _viewModel.notifychanges(price.toInt().toString());
+        _viewModel.notifychanges(price.toInt().toString(), 'Perming');
       } else {
         _priceController.clear();
         Future.delayed(const Duration(milliseconds: 50), () {

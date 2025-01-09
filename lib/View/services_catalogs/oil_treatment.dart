@@ -32,7 +32,7 @@ class _OilTreatmentState extends State<OilTreatment> {
     setState(() {
       if (isEditing) {
         price = double.tryParse(_priceController.text) ?? price;
-        _viewModel.notifychanges(price.toInt().toString());
+        _viewModel.notifychanges(price.toInt().toString(), 'Oil Treatment');
       } else {
         _priceController.clear();
         Future.delayed(const Duration(milliseconds: 50), () {

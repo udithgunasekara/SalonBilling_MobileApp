@@ -11,7 +11,7 @@ class HairCut extends StatefulWidget {
 
 class _HairCutState extends State<HairCut> {
   String? selectedOption;
-  double price = 400.00;
+  double price = 100.00;
   bool isEditing = false;
   final TextEditingController _priceController = TextEditingController();
   final _viewModel = ServiceViewModel();
@@ -34,7 +34,7 @@ class _HairCutState extends State<HairCut> {
     setState(() {
       if (isEditing) {
         price = double.tryParse(_priceController.text) ?? price;
-        _viewModel.notifychanges(price.toInt().toString());
+        _viewModel.notifychanges(price.toInt().toString(), selectedOption);
       } else {
         _priceController.clear();
         Future.delayed(const Duration(milliseconds: 50), () {
@@ -205,43 +205,6 @@ class _HairCutState extends State<HairCut> {
     );
   }
 
-  // Widget _buildOptionButton(String option) {
-  //   bool isSelected = selectedOption == option;
-
-  //   return Container(
-  //     height: 45, // Fixed height for consistent button size
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(8),
-  //       color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.white,
-  //       border: Border.all(
-  //         color: Colors.blue.withOpacity(0.3),
-  //         width: 1,
-  //       ),
-  //     ),
-  //     child: Material(
-  //       color: Colors.transparent,
-  //       child: InkWell(
-  //         borderRadius: BorderRadius.circular(8),
-  //         onTap: () {
-  //           setState(() {
-  //             selectedOption = option;
-  //           });
-  //         },
-  //         child: Center(
-  //           child: Text(
-  //             option,
-  //             style: TextStyle(
-  //               fontSize: 16,
-  //               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-  //               color: isSelected ? mainColor : Colors.black,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget _buildOptionButton(String option) {
     bool isSelected = selectedOption == option;
 
@@ -249,6 +212,7 @@ class _HairCutState extends State<HairCut> {
       onTap: () {
         setState(() {
           selectedOption = option;
+          _viewModel.notifychanges(price.toInt().toString(), selectedOption);
         });
       },
       child: Container(

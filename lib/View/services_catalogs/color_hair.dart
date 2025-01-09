@@ -32,7 +32,7 @@ class _ColorHairState extends State<ColorHair> {
     setState(() {
       if (isEditing) {
         price = double.tryParse(_priceController.text) ?? price;
-        _viewModel.notifychanges(price.toInt().toString());
+        _viewModel.notifychanges(price.toInt().toString(), 'Color Hair');
       } else {
         _priceController.clear();
         Future.delayed(const Duration(milliseconds: 50), () {
