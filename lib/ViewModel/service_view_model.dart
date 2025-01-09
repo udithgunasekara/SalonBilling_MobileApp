@@ -3,12 +3,20 @@ import 'package:hive/hive.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/View/services_catalogs/Haricut.dart';
 import 'package:salon_mobile/View/services_catalogs/cleanups.dart';
+import 'package:salon_mobile/View/services_catalogs/color_hair.dart';
+import 'package:salon_mobile/View/services_catalogs/conditioner_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/dressing.dart';
+import 'package:salon_mobile/View/services_catalogs/dye_hair.dart';
 import 'package:salon_mobile/View/services_catalogs/facials.dart';
 import 'package:salon_mobile/View/services_catalogs/galvanicMassage.dart';
+import 'package:salon_mobile/View/services_catalogs/hair_curl.dart';
 import 'package:salon_mobile/View/services_catalogs/menique.dart';
+import 'package:salon_mobile/View/services_catalogs/oil_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/pedique.dart';
+import 'package:salon_mobile/View/services_catalogs/perming.dart';
 import 'package:salon_mobile/View/services_catalogs/pimple_treatment.dart';
+import 'package:salon_mobile/View/services_catalogs/rebonding.dart';
+import 'package:salon_mobile/View/services_catalogs/relaxing.dart';
 import 'package:salon_mobile/View/services_catalogs/threading.dart';
 import 'package:salon_mobile/View/services_catalogs/wax.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
@@ -81,7 +89,7 @@ class ServiceViewModel {
 
       case 'Haircut':
         passFinalValue(text);
-        return const Haricut();
+        return const HairCut();
 
       case 'Dressing':
         passFinalValue(text);
@@ -114,6 +122,39 @@ class ServiceViewModel {
       case 'Pedique':
         passFinalValue(text);
         return const Pedique();
+
+      case 'Rebonding':
+        passFinalValue(text);
+        return const Rebonding();
+
+      case 'Perming':
+        passFinalValue(text);
+        return const Perming();
+
+      //updating here
+      case 'Hair Curl Long':
+        passFinalValue(text);
+        return const HairCurl();
+
+      case 'Oil Treatment':
+        passFinalValue(text);
+        return const OilTreatment();
+
+      case 'Color Hair':
+        passFinalValue(text);
+        return const ColorHair();
+
+      case 'Conditioner':
+        passFinalValue(text);
+        return const ConditionerTreatment();
+
+      case 'Relaxing':
+        passFinalValue(text);
+        return const Relaxing();
+
+      case 'Dye Hair':
+        passFinalValue(text);
+        return const DyeHair();
 
       default:
         return Container(); // return empty container for ref null
@@ -201,28 +242,11 @@ class ServiceViewModel {
       rethrow;
     }
   }
+
+  //handling non fixed prices
+// @notify values for defualt values
+
+  void notifychanges(String price) {
+    defualPrice.value = price;
+  }
 }
-
-
-
-// billPrice;
-//     serviceName;
-//     serviceNameList;
-
-//     //setter value
-//     bill.setPrice = billPrice;
-//     bill.setService = serviceNameList ?? serviceName;
-
-//     if (serviceNameList == null) {
-//       print("Here we save single service $serviceName and price : $billPrice");
-//       await _serviceRepository.saveServiceToFirebase(bill);
-
-//       bill.detach();
-//     } else {
-//       print(
-//           "Here we save single service $serviceNameList and price : $billPrice");
-//       await _serviceRepository.saveServiceToFirebase(bill);
-//       serviceNameList = null;
-//       bill.detach();
-//     }
-//   }
