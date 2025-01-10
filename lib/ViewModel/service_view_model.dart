@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/View/services_catalogs/Haricut.dart';
 import 'package:salon_mobile/View/services_catalogs/cleanups.dart';
@@ -36,7 +35,6 @@ class ServiceViewModel {
 
   List<Map<String, dynamic>> _service = [];
 
-  late Box salonBox;
   late Map<String, dynamic> salonBoxData;
   String? defualPricee = "____";
 
@@ -47,33 +45,6 @@ class ServiceViewModel {
 
   final ValueNotifier<String> defualPrice = ValueNotifier<String>("_____");
   List<Map<String, dynamic>> get services => _service;
-  Future<void> initializeLocalStorage() async {
-    try {
-      //fetch services from hive
-      salonBox = Hive.box('salonBox');
-
-      salonBoxData = Map<String, dynamic>.from(salonBox.toMap());
-
-      print("Getting2 form Box Data: $salonBoxData");
-
-      _service = salonBoxData.entries.map((entry) {
-        if (entry.value is Map) {
-          return Map<String, dynamic>.from(entry.value as Map);
-        } else if (entry.value is List) {
-          // Handle list case if needed
-          return {'data': entry.value};
-        } else {
-          // Handle other cases
-          return {'value': entry.value};
-        }
-      }).toList();
-
-      print("Getting form Box Data: $salonBoxData");
-      print("Service Data: $_service");
-    } catch (e) {
-      print('Service fetching Error: $e');
-    }
-  }
 
   Future<void> fetchAndSaveServices() async {
     try {

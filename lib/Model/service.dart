@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hive/hive.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
 class Service {
@@ -59,19 +58,14 @@ class Service {
 
 class ServiceRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  late final Box salonBox;
 
   Future<List<Map<String, dynamic>>> fetchServices() async {
     try {
       final snapshot = await _firestore.collection('Services').get();
 
       final services = snapshot.docs
-          // ignore: unnecessary_cast
           .map((doc) => doc.data() as Map<String, dynamic>)
           .toList();
-
-      //save date in Hive Box
-      await _saveServiceToHive(services);
 
       return services;
     } on SocketException {
@@ -80,17 +74,6 @@ class ServiceRepository {
     } catch (e) {
       print('Error fetching Services list: $e');
       throw Exception('Error fetching Services list: $e');
-    }
-  }
-
-  Future<void> _saveServiceToHive(List<Map<String, dynamic>> service) async {
-    try {
-      service.asMap().forEach((index, service) async {
-        await salonBox.put('service_$index', service);
-      });
-      print("Services saved Hive is successfull.");
-    } catch (e) {
-      print("Error saving services to salonBox Hive: $e");
     }
   }
 

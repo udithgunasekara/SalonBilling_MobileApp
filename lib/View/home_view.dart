@@ -172,7 +172,6 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/assets/theme/themebutton.dart';
 import 'package:provider/provider.dart'; // Add this import
