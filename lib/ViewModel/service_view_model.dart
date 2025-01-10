@@ -24,14 +24,9 @@ import 'package:salon_mobile/View/services_catalogs/wax.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
 class ServiceViewModel {
-//creating private constructor
   ServiceViewModel._privateConstructore();
-
-  //static instance
   static final ServiceViewModel _instance =
       ServiceViewModel._privateConstructore();
-
-  //factory constructore return same instance
   factory ServiceViewModel() {
     return _instance;
   }
@@ -40,11 +35,9 @@ class ServiceViewModel {
   final Bill bill = Bill();
 
   List<Map<String, dynamic>> _service = [];
-  final Map<String, dynamic> _servicesHash = {};
 
   late Box salonBox;
   late Map<String, dynamic> salonBoxData;
-
   String? defualPricee = "____";
 
   //For billing infor
@@ -52,28 +45,47 @@ class ServiceViewModel {
   late String? serviceName;
   List<String>? serviceNameList;
 
-  //ValueNotifier for change state
   final ValueNotifier<String> defualPrice = ValueNotifier<String>("_____");
-
   List<Map<String, dynamic>> get services => _service;
-  Map<String, dynamic> get servicesHash => _servicesHash;
+  Future<void> initializeLocalStorage() async {
+    try {
+      //fetch services from hive
+      salonBox = Hive.box('salonBox');
+
+      salonBoxData = Map<String, dynamic>.from(salonBox.toMap());
+
+      print("Getting2 form Box Data: $salonBoxData");
+
+      _service = salonBoxData.entries.map((entry) {
+        if (entry.value is Map) {
+          return Map<String, dynamic>.from(entry.value as Map);
+        } else if (entry.value is List) {
+          // Handle list case if needed
+          return {'data': entry.value};
+        } else {
+          // Handle other cases
+          return {'value': entry.value};
+        }
+      }).toList();
+
+      print("Getting form Box Data: $salonBoxData");
+      print("Service Data: $_service");
+    } catch (e) {
+      print('Service fetching Error: $e');
+    }
+  }
 
   Future<void> fetchAndSaveServices() async {
     try {
+      //save and fetch services
       _service = await _serviceRepository.fetchServices();
-
-      // _servicesHash = {for (var service in _service) service['id']: service};
-      // print('All services saved in servicesHash: $_servicesHash');
-
-      //get the salonBox and print them into here.
-      salonBox = await Hive.openBox('salonBox');
-      salonBoxData = Map<String, dynamic>.from(salonBox.toMap());
     } catch (e) {
       print('Service fetching Error: $e');
     }
   }
 
   List<Map<String, dynamic>> searchServices(String query) {
+    print("Search Query: $query and Service: $_service");
     return _service
         .where((service) =>
             service['name'].toLowerCase().contains(query.toLowerCase()) ||
@@ -177,7 +189,6 @@ class ServiceViewModel {
 
     print("What Text: $text");
     print("Check1 Service: $services");
-    print("Check1 HashService: $servicesHash");
     print("what in Hive: $salonBoxData");
     serviceName = text;
 

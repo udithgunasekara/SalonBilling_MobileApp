@@ -53,7 +53,7 @@ class _ServiceInforState extends State<ServiceInfor> {
   }
 
   Future<void> _fetchServices() async {
-    await _viewModel.fetchAndSaveServices();
+    //await _viewModel.fetchAndSaveServices(); no need to fetch again
     setState(() {
       _filteredServices = _viewModel.services;
     });

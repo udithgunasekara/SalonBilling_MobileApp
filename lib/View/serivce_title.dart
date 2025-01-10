@@ -1,29 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salon_mobile/Model/service.dart';
 
-// //showing the service employee did
-// class ServiceTile extends StatelessWidget {
-//   final Service _service;
-
-//   const ServiceTile(this._service, {super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       //add time
-//       title: Text(_service.providerName),
-//       subtitle: Text(_service.serviceType),
-//       trailing: Column(
-//         crossAxisAlignment: CrossAxisAlignment.end,
-//         children: [
-//           Text(_service.contactNumber),
-//           Text('Rs. ${_service.price}/-'),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class ServiceTile extends StatelessWidget {
   final Service _service;
   final int index; // Add index parameter
@@ -99,7 +76,7 @@ class ServiceTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _service.serviceType,
+                        _service.serviceTypeDisplay,
                         style: const TextStyle(
                           color: Colors.black54,
                           fontSize: 14,

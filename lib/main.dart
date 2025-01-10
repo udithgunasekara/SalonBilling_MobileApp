@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:salon_mobile/View/home_view.dart';
 import 'package:salon_mobile/ViewModel/home_view_model.dart';
+import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -15,11 +16,41 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp()); //Create Home Page and add here
+  runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  final ServiceViewModel _viewModel = ServiceViewModel();
+
+  @override
+  void initState() {
+    dataInitializer();
+    super.initState();
+  }
+
+  void dataInitializer() async {
+    //check hive salonBox is empty or not
+    final salonBox = Hive.box('salonBox');
+    if (salonBox.isEmpty) {
+      print("salonBox is empty");
+      _viewModel.fetchAndSaveServices();
+      salonBox.put('services', _viewModel.services);
+      print(" Here val: $salonBox['services']");
+      print(" Here val2: $salonBox");
+    } else {
+      print("salonBox is not empty");
+      await _viewModel.initializeLocalStorage();
+
+      print("local initailized");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

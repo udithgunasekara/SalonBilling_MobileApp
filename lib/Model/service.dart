@@ -6,18 +6,53 @@ import 'package:salon_mobile/ViewModel/bill.dart';
 
 class Service {
   final String providerName;
-  final String serviceType;
+  final dynamic serviceType; // This can be either String or List<String>
   final String contactNumber;
-  final int price;
   final String time;
+  final String price;
 
   Service({
     required this.providerName,
     required this.serviceType,
     required this.contactNumber,
-    required this.price,
     required this.time,
+    required this.price,
   });
+
+  static Service fromSnapshot(DocumentSnapshot snapshot) {
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+    // Handle serviceType that can be either String or List
+    var serviceType = data['service'];
+    dynamic formattedServiceType;
+
+    if (serviceType is String) {
+      formattedServiceType = serviceType;
+    } else if (serviceType is List) {
+      formattedServiceType =
+          serviceType.join(', '); // Convert array to comma-separated string
+    } else {
+      formattedServiceType = ''; // Default value if neither string nor list
+    }
+
+    return Service(
+      providerName: data['clientName']?.toString() ?? '',
+      serviceType: formattedServiceType,
+      contactNumber: data['phoneNumber']?.toString() ?? '',
+      time: data['time']?.toString() ?? '',
+      price: data['price']?.toString() ?? '',
+    );
+  }
+
+  // Helper method to get service type as display string
+  String get serviceTypeDisplay {
+    if (serviceType is String) {
+      return serviceType as String;
+    } else if (serviceType is List) {
+      return (serviceType as List).join(', ');
+    }
+    return '';
+  }
 }
 
 //Fetching the services list
@@ -25,14 +60,6 @@ class Service {
 class ServiceRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   late final Box salonBox;
-
-  ServiceRepository() {
-    _initializeHiveBox();
-  }
-
-  Future<void> _initializeHiveBox() async {
-    salonBox = await Hive.openBox('salonBox');
-  }
 
   Future<List<Map<String, dynamic>>> fetchServices() async {
     try {
@@ -45,11 +72,6 @@ class ServiceRepository {
 
       //save date in Hive Box
       await _saveServiceToHive(services);
-
-      // Print services to console
-      for (var service in services) {
-        print('tttttService: $service');
-      }
 
       return services;
     } on SocketException {
