@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:salon_mobile/View/home_view.dart';
@@ -11,6 +12,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+// Enable Firestore persistance on caching purposes
+  FirebaseFirestore.instance.settings =
+      const Settings(persistenceEnabled: true);
 
   runApp(const MyApp());
 }

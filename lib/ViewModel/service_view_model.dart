@@ -35,7 +35,7 @@ class ServiceViewModel {
 
   List<Map<String, dynamic>> _service = [];
 
-  late Map<String, dynamic> salonBoxData;
+  //late Map<String, dynamic> salonBoxData;
   String? defualPricee = "____";
 
   //For billing infor
@@ -160,11 +160,11 @@ class ServiceViewModel {
 
     print("What Text: $text");
     print("Check1 Service: $services");
-    print("what in Hive: $salonBoxData");
+    //print("what in Hive: $salonBoxData");
     serviceName = text;
 
     try {
-      salonBoxData.forEach((key, service) {
+      services.forEach((service) {
         if (service['name'] == text) {
           var price = service['prices'];
           if (price is Map) {

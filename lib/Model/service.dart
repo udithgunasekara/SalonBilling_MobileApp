@@ -5,7 +5,7 @@ import 'package:salon_mobile/ViewModel/bill.dart';
 
 class Service {
   final String providerName;
-  final dynamic serviceType; // This can be either String or List<String>
+  final dynamic serviceType;
   final String contactNumber;
   final String time;
   final String price;
@@ -54,8 +54,6 @@ class Service {
   }
 }
 
-//Fetching the services list
-
 class ServiceRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -79,7 +77,6 @@ class ServiceRepository {
 
   Future<void> saveServiceToFirebase(Bill bill) async {
     try {
-      //Reference to the Bill collection
       CollectionReference bills = _firestore.collection("Bills");
 
       await bills.add({
@@ -89,9 +86,9 @@ class ServiceRepository {
         'service': bill.getService,
         'price': bill.getPrice,
         'whatsApp': bill.getWhatsAppStatus,
-
-        'timestamp': FieldValue.serverTimestamp(), // Firestore server timestamp
+        'timestamp': FieldValue.serverTimestamp(),
       });
+
       print("Service saved Successfully");
     } catch (e) {
       print('Error saving service: $e');
