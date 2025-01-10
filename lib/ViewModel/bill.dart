@@ -1,9 +1,9 @@
 class Bill {
-  late String clientName;
-  late String phoneNumber;
-  late String location;
+  late String? clientName;
+  late String? phoneNumber;
+  late String? location;
   late dynamic service;
-  late String price;
+  late String? price;
   late bool whatsAppStatus = true;
   //late DateTime dateTime;
 
@@ -14,11 +14,11 @@ class Bill {
     return _instance;
   }
 
-  String get getClientName => clientName;
-  String get getPhoneNumber => phoneNumber;
-  String get getLocation => location;
+  String? get getClientName => clientName;
+  String? get getPhoneNumber => phoneNumber;
+  String? get getLocation => location;
   dynamic get getService => service;
-  String get getPrice => price;
+  String? get getPrice => price;
   bool get getWhatsAppStatus => whatsAppStatus;
 
   //DateTime get getDateTime => dateTime;
@@ -32,10 +32,10 @@ class Bill {
   //set setDateTime(DateTime dt) => dateTime = dt;
 
   void detach() {
-    // clientName = '';
-    // phoneNumber = '';
-    // location = '';
-    setService = null;
-    setPrice = '';
+    clientName = null;
+    phoneNumber = null;
+    location = null;
+    service = null;
+    price = null;
   }
 }

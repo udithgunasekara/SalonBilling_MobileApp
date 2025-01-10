@@ -207,7 +207,11 @@ class ServiceViewModel {
   Future<void> saveBill() async {
     //Variable: billPrice, ServiceName, ServiceList
     try {
-      if (billPrice.isEmpty || billPrice == '0') {
+      if (billPrice.isEmpty ||
+          billPrice == '0' ||
+          bill.getClientName == null ||
+          bill.getPhoneNumber == null ||
+          bill.getLocation == null) {
         throw Exception('Bill price cannot be empty or zero');
       }
 
@@ -218,17 +222,17 @@ class ServiceViewModel {
       bill.setPrice = billPrice;
       bill.setService = serviceNameList ?? serviceName;
 
+      // if (bill.clientName == null ||
+      //     bill.getPhoneNumber == null)
       if (serviceNameList == null) {
         print(
             "Here we save single service $serviceName and price : $billPrice");
         await _serviceRepository.saveServiceToFirebase(bill);
-        bill.detach();
       } else {
         print(
             "Here we save Multi service $serviceNameList and price : $billPrice");
         await _serviceRepository.saveServiceToFirebase(bill);
         serviceNameList = null;
-        bill.detach();
       }
     } catch (e) {
       print('Error saving bill: $e');
@@ -243,5 +247,12 @@ class ServiceViewModel {
     defualPrice.value = price;
     billPrice = price;
     serviceName = selectedService;
+  }
+
+  void detach() {
+    billPrice = '0';
+    defualPrice.value = '0';
+    serviceName = null;
+    serviceNameList = null;
   }
 }

@@ -33,13 +33,6 @@ class _ServiceInforState extends State<ServiceInfor> {
   void initState() {
     super.initState();
     _fetchServices();
-
-    //Clean search bar
-    // _searchController.addListener(() {
-    //   _searchController.clear();
-    // });
-
-    //Lets set threading card first
   }
   //Clean search bar
 
@@ -277,7 +270,7 @@ class _ServiceInforState extends State<ServiceInfor> {
                 } catch (e) {
                   ToastHelper.toastBanner(
                     context,
-                    "Please Check Informations again",
+                    "Please Check Informations again $e",
                     ToastType.error,
                     duration: const Duration(seconds: 3),
                     alignment: Alignment.bottomCenter,

@@ -13,13 +13,6 @@ class _ChargePriceState extends State<ChargePrice> {
 
   String? x;
 
-  // @override
-  // void setState(VoidCallback fn) {
-  //   // TODO: implement setState
-  //   super.setState(fn);
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Container(
