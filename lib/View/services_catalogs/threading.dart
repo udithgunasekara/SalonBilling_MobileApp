@@ -11,7 +11,7 @@ class Threading extends StatefulWidget {
 
 class _ThreadingState extends State<Threading> {
   final _viewModel = ServiceViewModel();
-  int _selectedIndex = -1;
+  final int _selectedIndex = -1;
   List<String> selectedServices = [];
 
   void selectService(String text) {

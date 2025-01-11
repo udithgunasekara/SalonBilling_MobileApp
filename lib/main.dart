@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:salon_mobile/View/home_view.dart';
 import 'package:salon_mobile/ViewModel/home_view_model.dart';
-import 'package:salon_mobile/ViewModel/service_view_model.dart';
 import 'firebase_options.dart';
 
 void main() async {

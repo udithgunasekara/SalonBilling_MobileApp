@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salon_mobile/Model/service.dart';
 import 'package:salon_mobile/assets/theme/themebutton.dart';
-import 'package:provider/provider.dart';
 import '../../assets/theme/themecolor.dart';
 import 'package:salon_mobile/View/serivce_title.dart';
 import 'package:salon_mobile/ViewModel/home_view_model.dart';
@@ -62,16 +61,15 @@ class HomeView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Hello, Udith",
+                        "Hello, Dilini",
                         style: TextStyle(
                             fontSize: 28,
                             color: Colors.white,
                             fontWeight: FontWeight.bold),
                       ),
                       CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(
-                            'https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg'),
+                        radius: 32,
+                        backgroundImage: AssetImage('assets/dp1.jpg'),
                       ),
                     ],
                   ),
