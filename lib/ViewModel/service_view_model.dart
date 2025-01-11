@@ -22,8 +22,6 @@ import 'package:salon_mobile/View/services_catalogs/tonic_treatment.dart';
 import 'package:salon_mobile/View/services_catalogs/wax.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class ServiceViewModel {
   ServiceViewModel._privateConstructore();
   static final ServiceViewModel _instance =

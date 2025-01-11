@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:salon_mobile/ViewModel/bill.dart';
 
 class Service {
@@ -62,7 +61,9 @@ class ServiceRepository {
     try {
       final snapshot = await _firestore.collection('Services').get();
 
-      final services = snapshot.docs.map((doc) => doc.data()).toList();
+      final services = snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
 
       return services;
     } on SocketException {
@@ -76,7 +77,6 @@ class ServiceRepository {
 
   Future<void> saveServiceToFirebase(Bill bill) async {
     try {
-      //Reference to the Bill collection
       CollectionReference bills = _firestore.collection("Bills");
 
       await bills.add({
@@ -86,9 +86,9 @@ class ServiceRepository {
         'service': bill.getService,
         'price': bill.getPrice,
         'whatsApp': bill.getWhatsAppStatus,
-
-        'timestamp': FieldValue.serverTimestamp(), // Firestore server timestamp
+        'timestamp': FieldValue.serverTimestamp(),
       });
+
       print("Service saved Successfully");
     } catch (e) {
       print('Error saving service: $e');

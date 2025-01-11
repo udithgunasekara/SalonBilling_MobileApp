@@ -45,8 +45,6 @@ dependencies:
   flutter_svg: ^2.0.16
   fluttertoast: ^8.2.10
   toastification: ^2.3.0
-  shared_preferences: ^2.3.5
-  connectivity_plus: ^6.1.1
 
 
 
@@ -82,9 +80,6 @@ flutter:
   - assets/whatsapp1.png
   - assets/whatsappsvg.svg
   - assets/redwhatsappsvg.svg
-  - assets/dp1.jpg
-
-
   
   
   # An image asset can refer to one or more resolution-specific "variants", see
