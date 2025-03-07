@@ -13,17 +13,17 @@ class HomeViewModel extends ChangeNotifier {
   List<Service> get services => _services;
   bool get isLoading => _isLoading;
 
-  HomeViewModel() {
-    _initializeData();
-  }
+  // HomeViewModel() {
+  //   _initializeData();
+  // }
 
-  void _initializeData() {
-    _repositoryService.getBills().listen((bills) {
-      _services = bills;
-      _isLoading = false;
-      notifyListeners();
-    });
-  }
+  // void _initializeData() {
+  //   _repositoryService.getBills().listen((bills) {
+  //     _services = bills;
+  //     _isLoading = false;
+  //     notifyListeners();
+  //   });
+  // }
 
   void navigateToNewBill(BuildContext context) {
     Navigator.push(
